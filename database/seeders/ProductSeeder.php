@@ -29,6 +29,40 @@ class ProductSeeder extends Seeder
         // -------------------------------
         $this->addProduct(
             category: $vacuum,
+            code: '1.198-671',
+            name: [
+                'ru' => 'KVA 2',
+                'en' => 'KVA 2 Vacuum Cleaner',
+                'uz' => 'KVA 2 Changyutgich',
+            ],
+            description: [
+                'ru' => 'Компактный и лёгкий пылесос для ежедневной уборки.',
+                'en' => 'Compact and lightweight vacuum cleaner for daily cleaning.',
+                'uz' => 'Kundalik tozalash uchun ixcham va yengil changyutgich.',
+            ],
+            price_old: null,
+            price_new: null,
+            images: [
+                'kva2_1.jpg',
+                'kva2_2.jpg',
+                'kva2_3.jpg',
+            ],
+            specs: [
+                ['Battery pack', '100 – 240 V'],
+                ['Noise level', '< 78 dB'],
+                ['Weight', '2.1 kg'],
+                ['Charging time', '240 min'],
+            ],
+            equipment: [
+                'HEPA filter',
+                'Slot nozzle',
+                'Brush attachment 2-in-1',
+                'Wall mount',
+            ]
+        );
+
+        $this->addProduct(
+            category: $vacuum,
             code: '1.198-670',
             name: [
                 'ru' => 'KVA 2',
@@ -61,6 +95,74 @@ class ProductSeeder extends Seeder
             ]
         );
 
+
+        $this->addProduct(
+            category: $vacuum,
+            code: '1.198-673',
+            name: [
+                'ru' => 'KVA 2',
+                'en' => 'KVA 2 Vacuum Cleaner',
+                'uz' => 'KVA 2 Changyutgich',
+            ],
+            description: [
+                'ru' => 'Компактный и лёгкий пылесос для ежедневной уборки.',
+                'en' => 'Compact and lightweight vacuum cleaner for daily cleaning.',
+                'uz' => 'Kundalik tozalash uchun ixcham va yengil changyutgich.',
+            ],
+            price_old: null,
+            price_new: null,
+            images: [
+                'kva2_1.jpg',
+                'kva2_2.jpg',
+                'kva2_3.jpg',
+            ],
+            specs: [
+                ['Battery pack', '100 – 240 V'],
+                ['Noise level', '< 78 dB'],
+                ['Weight', '2.1 kg'],
+                ['Charging time', '240 min'],
+            ],
+            equipment: [
+                'HEPA filter',
+                'Slot nozzle',
+                'Brush attachment 2-in-1',
+                'Wall mount',
+            ]
+        );
+
+        $this->addProduct(
+            category: $vacuum,
+            code: '1.198-670',
+            name: [
+                'ru' => 'KVA 2',
+                'en' => 'KVA 2 Vacuum Cleaner',
+                'uz' => 'KVA 2 Changyutgich',
+            ],
+            description: [
+                'ru' => 'Компактный и лёгкий пылесос для ежедневной уборки.',
+                'en' => 'Compact and lightweight vacuum cleaner for daily cleaning.',
+                'uz' => 'Kundalik tozalash uchun ixcham va yengil changyutgich.',
+            ],
+            price_old: null,
+            price_new: null,
+            images: [
+                'kva2_1.jpg',
+                'kva2_2.jpg',
+                'kva2_3.jpg',
+            ],
+            specs: [
+                ['Battery pack', '100 – 240 V'],
+                ['Noise level', '< 78 dB'],
+                ['Weight', '2.1 kg'],
+                ['Charging time', '240 min'],
+            ],
+            equipment: [
+                'HEPA filter',
+                'Slot nozzle',
+                'Brush attachment 2-in-1',
+                'Wall mount',
+            ]
+        );
         // -------------------------------
         // 2) Минимойка K3
         // -------------------------------
@@ -150,7 +252,7 @@ class ProductSeeder extends Seeder
             'catalog_images' => $images,
             'specifications' => $specs,
             'equipment' => $equipment,
-            'is_hit' => false,
+            'is_hit' => true,
             'is_new' => true,
             'is_recommended' => false,
             'is_sale' => false,
