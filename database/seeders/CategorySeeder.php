@@ -2,67 +2,82 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
+use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Бытовая техника
-        $household = Category::create([
+        // --- Главные категории ---
+        $home = Category::create([
             'parent_id' => null,
             'type' => 1,
-            'slug' => 'household',
+            'image' => null,
+            'order' => 1,
         ]);
 
-        $translations = [
-            ['locale' => 'ru', 'name' => 'Бытовая техника', 'description' => ''],
-            ['locale' => 'en', 'name' => 'Household', 'description' => ''],
-            ['locale' => 'uz', 'name' => 'Maishiy texnika', 'description' => ''],
-        ];
-
-        foreach ($translations as $t) {
-            $household->translations()->create($t);
-        }
-
-        // Профессиональная техника
         $professional = Category::create([
             'parent_id' => null,
             'type' => 2,
-            'slug' => 'professional',
+            'image' => null,
+            'order' => 2,
         ]);
 
-        $translations = [
-            ['locale' => 'ru', 'name' => 'Профессиональная техника', 'description' => ''],
-            ['locale' => 'en', 'name' => 'Professional', 'description' => ''],
-            ['locale' => 'uz', 'name' => 'Professional texnika', 'description' => ''],
+        // --- Переводы ---
+        $this->addTranslations($home, 'Home', 'Главная', 'Bosh sahifa');
+        $this->addTranslations($professional, 'Professional', 'Профессиональная', 'Professional');
+
+        // --- Подкатегории для Home ---
+        $subcategories = [
+            'Минимойки',
+            'Пылесосы',
+            'Пароочистители',
+            'Аппараты для влажной уборки пола',
+            'Стеклоочистители (пылесосы для окон)',
+            'Аксессуары',
+            'Насосы',
+            'Полив',
+            'Техника для сада',
+            'Электрический скребок для удаления льда'
         ];
 
-        foreach ($translations as $t) {
-            $professional->translations()->create($t);
-        }
+        foreach ($subcategories as $index => $nameRu) {
+            $cat = Category::create([
+                'parent_id' => $home->id,
+                'type' => 1,
+                'order' => $index + 1,
+            ]);
 
-        // Пример вложенной категории: Home & Garden
-        $homeGarden = Category::create([
-            'parent_id' => $household->id,
-            'type' => 1,
-            'slug' => 'home-garden',
+            // переводы
+            $nameEn = Str::slug($nameRu, ' ');
+            $nameEn = ucwords($nameEn);
+
+            $nameUz = $nameRu; // временно тот же текст, можно позже заменить
+
+            $this->addTranslations($cat, $nameEn, $nameRu, $nameUz);
+        }
+    }
+
+    private function addTranslations(Category $category, string $en, string $ru, string $uz): void
+    {
+        $category->translations()->createMany([
+            [
+                'locale' => 'en',
+                'name' => $en,
+                'slug' => Str::slug($en),
+            ],
+            [
+                'locale' => 'ru',
+                'name' => $ru,
+                'slug' => Str::slug($ru),
+            ],
+            [
+                'locale' => 'uz',
+                'name' => $uz,
+                'slug' => Str::slug($uz),
+            ],
         ]);
-
-        $translations = [
-            ['locale' => 'ru', 'name' => 'Дом и сад', 'description' => ''],
-            ['locale' => 'en', 'name' => 'Home & Garden', 'description' => ''],
-            ['locale' => 'uz', 'name' => 'Uy va bog', 'description' => ''],
-        ];
-
-        foreach ($translations as $t) {
-            $homeGarden->translations()->create($t);
-        }
-
     }
 }

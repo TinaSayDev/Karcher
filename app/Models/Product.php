@@ -10,12 +10,25 @@ class Product extends Model
 {
     protected $fillable = [
         'category_id',
-        'slug',
-        'price',
+        'code',
+        'price_old',
+        'price_new',
+        'image_main',
+        'images',
+        'catalog_images',
+        'specifications',
+        'equipment',
         'is_hit',
-        'is_recommended',
         'is_new',
-        'is_discounted',
+        'is_recommended',
+        'is_sale',
+    ];
+
+    protected $casts = [
+        'images' => 'array',
+        'catalog_images' => 'array',
+        'specifications' => 'array',
+        'equipment' => 'array',
     ];
 
     // Категория продукта
