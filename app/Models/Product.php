@@ -31,17 +31,18 @@ class Product extends Model
         'equipment' => 'array',
     ];
 
-    // Категория продукта
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    // Переводы продукта
-    public function translations(): HasMany
+    public function translations()
     {
         return $this->hasMany(ProductTranslation::class);
     }
+
+    // текущее активное на выбранной локали
+    public function translation()
+    {
+        return $this->hasOne(ProductTranslation::class)
+            ->where('locale', app()->getLocale());
+    }
+
 
     // Удобные методы для меток
     public function isHit(): bool { return $this->is_hit; }

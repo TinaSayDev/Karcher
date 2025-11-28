@@ -5,28 +5,8 @@
     <title>Karcher</title>
 </head>
 <body>
-
-<h1>Каталог</h1>
-
-<ul>
-    @foreach($categories as $category)
-        <li>
-            {{ $category->translations->firstWhere('locale', 'ru')->name }}
-
-            @if($category->children->count())
-                <ul>
-                    @foreach($category->children as $child)
-                        <li>
-                            {{ $child->translations->firstWhere('locale', 'ru')->name }}
-                        </li>
-                    @endforeach
-                </ul>
-            @endif
-
-        </li>
-    @endforeach
-</ul>
-
+<div id="app">
+    <h1 class="text-2xl font-bold mb-4">Vue в Laravel работает!</h1>
+</div>
 </body>
 </html>
-<?php
