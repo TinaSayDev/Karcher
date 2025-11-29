@@ -8,6 +8,7 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 // Импортируем глобальные компоненты
 import Catalog from './Components/Catalog.vue';
+import Topmenu from './Layouts/TopMenu.vue';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -23,6 +24,7 @@ createInertiaApp({
 
         // Регистрируем компонент глобально
         app.component('catalog-component', Catalog);
+        app.component('topmenu', Topmenu);
 
         app.use(plugin).use(ZiggyVue).mount(el);
 

@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h1>Добро пожаловать</h1>
-
+        <topmenu></topmenu>
         <catalog-component></catalog-component>
     </div>
 </template>

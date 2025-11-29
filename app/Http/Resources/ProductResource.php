@@ -12,7 +12,8 @@ class ProductResource extends JsonResource
             'id'    => $this->id,
             'name'  => $this->translation->name ?? $this->name ?? 'Название отсутствует',
             'price' => $this->price,
-            'image' => $this->image_url ?? null,
+            'image_main' => $this->image_main ?? null,
+            'images'=>$this->images ??  $this->image_main
         ];
     }
 }
