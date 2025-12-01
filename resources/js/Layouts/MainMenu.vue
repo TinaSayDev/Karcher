@@ -1,5 +1,5 @@
 <template>
-    <nav class="main-menu">
+    <nav class="main-menu container">
         <a href="#"><img src="/storage/karcher_logo.png" width="123" height="32" alt=""></a>
         <ul>
             <li v-for="item in items" :key="item.label">
@@ -29,12 +29,11 @@ const items = [
 .main-menu {
     display: flex;
     justify-content: space-between;
-    padding: 20px 128px;
+    padding: 20px 5px;
     font-size: 14px;
     background: #fff;
     align-items: center;
     justify-self: center;
-    width: 100%;
 }
 ul {
     display: flex;

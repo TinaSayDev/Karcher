@@ -22,6 +22,11 @@ p{
     background-color: #F8F8F8;
 }
 
+.container{
+    width: 1188px;
+    margin: 0 auto;
+}
+
 .content{
     max-width: 1188px;
     margin: 0 auto;
