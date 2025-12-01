@@ -12,3 +12,7 @@ body{
 a{
     text-decoration: none;
 }
+
+.gray{
+    background-color: #F8F8F8;
+}
