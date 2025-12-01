@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
 .card {
      position: relative;
      width: 337px;
@@ -38,7 +44,7 @@
     left: 25px;
     top: 337.5px;
     display: flex;
-    gap: 17px;
+    gap: 5px;
 }
 .stars div {
     width: 15px;

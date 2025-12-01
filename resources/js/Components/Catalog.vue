@@ -4,10 +4,25 @@
     <div v-else class="products-grid">
 
         <div class="card" v-for="product in products" :key="product.id">
-            <div class="image image-slider" :style="`background-image: url(/storage/products/${product.image_main})`"></div>
+            <div class="image image-slider" :style="`background-image: url(/storage/products/${product.images[0]})`"></div>
             <div class="badge">Хит</div>
             <div class="stars">
-                <div></div><div></div><div></div><div></div><div></div>
+                <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.3699 5.5L10.1599 7.90799L10.2699 8.254L12.3398 12.999H11.6199L7.49988 9.99899L3.40991 12.999H2.65991L4.69983 8.29199L4.81982 7.897L0.629883 5.49701V5H5.74988L7.27991 0H7.65991L9.22986 5H14.3699V5.5Z" fill="#DDDDDD"/>
+                </svg>
+                <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.3699 5.5L10.1599 7.90799L10.2699 8.254L12.3398 12.999H11.6199L7.49988 9.99899L3.40991 12.999H2.65991L4.69983 8.29199L4.81982 7.897L0.629883 5.49701V5H5.74988L7.27991 0H7.65991L9.22986 5H14.3699V5.5Z" fill="#DDDDDD"/>
+                </svg>
+                <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.3699 5.5L10.1599 7.90799L10.2699 8.254L12.3398 12.999H11.6199L7.49988 9.99899L3.40991 12.999H2.65991L4.69983 8.29199L4.81982 7.897L0.629883 5.49701V5H5.74988L7.27991 0H7.65991L9.22986 5H14.3699V5.5Z" fill="#DDDDDD"/>
+                </svg>
+                <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.3699 5.5L10.1599 7.90799L10.2699 8.254L12.3398 12.999H11.6199L7.49988 9.99899L3.40991 12.999H2.65991L4.69983 8.29199L4.81982 7.897L0.629883 5.49701V5H5.74988L7.27991 0H7.65991L9.22986 5H14.3699V5.5Z" fill="#DDDDDD"/>
+                </svg>
+                <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.3699 5.5L10.1599 7.90799L10.2699 8.254L12.3398 12.999H11.6199L7.49988 9.99899L3.40991 12.999H2.65991L4.69983 8.29199L4.81982 7.897L0.629883 5.49701V5H5.74988L7.27991 0H7.65991L9.22986 5H14.3699V5.5Z" fill="#DDDDDD"/>
+                </svg>
+
             </div>
             <div class="title">{{ product.name }}</div>
             <div class="stock">
@@ -20,46 +35,6 @@
 
     </div>
 </template>
-
-<style scoped>
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-}
-
-.product-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-    padding: 8px;
-}
-
-.image-slider {
-    background-size: cover;
-    background-position: center;
-    border-radius: 8px;
-}
-
-.stars {
-    display: flex;
-    justify-content: center;
-    margin-top: 6px;
-}
-
-.stars div {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin: 0 3px;
-    background: #ddd;
-    transition: background 0.2s;
-}
-
-.stars div.active {
-    background: #F1DE04;
-}
-</style>
 
 
 <script setup>
