@@ -2,25 +2,26 @@
     <nav class="main-menu">
         <a href="#"><img src="/storage/karcher_logo.png" width="123" height="32" alt=""></a>
         <ul>
-            <li v-for="item in items" :key="item">
-                <a href="#">
-                    <span>{{ item }}</span>
+            <li v-for="item in items" :key="item.label">
+                <Link :href="item.url">
+                    <span>{{ item.label }}</span>
                     <div class="line top"></div>
                     <div class="line bottom"></div>
-                </a>
+                </Link>
             </li>
         </ul>
     </nav>
 </template>
 
 <script setup>
+import { Link } from '@inertiajs/vue3'
 const items = [
-    "КАТАЛОГ",
-    "ДЛЯ ДОМА И САДА",
-    "ПРОФЕССИОНАЛЬНАЯ ТЕХНИКА",
-    "ПОКУПКА И СЕРВИС",
-    "О КОМПАНИИ",
-    "БЛОГ"
+    { label: "КАТАЛОГ", url: "/catalog" },
+    { label: "ДЛЯ ДОМА И САДА", url: "/home" },
+    { label: "ПРОФЕССИОНАЛЬНАЯ ТЕХНИКА", url: "/professional" },
+    { label: "ПОКУПКА И СЕРВИС", url: "/service" },
+    { label: "О КОМПАНИИ", url: "/about" },
+    { label: "БЛОГ", url: "/blog" }
 ];
 </script>
 

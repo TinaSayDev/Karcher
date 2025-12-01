@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -14,9 +13,10 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
-Route::get('/test-products', [ProductController::class, 'hits']);
-
+// Pages navigation
+Route::get('/about', function () {
+    return Inertia::render('About'); // имя Vue-компонента
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
