@@ -73,6 +73,7 @@ a:hover .line {
         flex-direction: column;
         align-items: flex-start;
         gap:5px;
+        padding: 10px;
     }
 }
 </style>

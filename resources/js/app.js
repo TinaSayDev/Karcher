@@ -7,7 +7,7 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 // Импортируем глобальные компоненты
-import Catalog from './Components/Catalog.vue';
+import Catalog from './Components/Custom/Catalog.vue';
 import Topmenu from './Layouts/TopMenu.vue';
 import Mainmenu from './Layouts/MainMenu.vue';
 

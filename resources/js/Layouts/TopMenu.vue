@@ -152,9 +152,12 @@ const select = lang => {
 
 @media (max-width: 800px) {
     .top-menu {
-        /*flex-direction: column; !* Элементы располагаются в столбец на маленьких экранах *!*/
+        flex-direction: column; /* Элементы располагаются в столбец на маленьких экранах */
+        padding: 10px;
+        align-items: flex-start;
+        gap: 10px;
     }
-    .search,.fb,.inst{
+    .fb,.inst{
         margin-right: 10px;
     }
     .flex-item {

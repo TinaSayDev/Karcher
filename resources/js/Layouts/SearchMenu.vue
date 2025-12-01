@@ -149,5 +149,8 @@ const submit = async () => {
     .search-icon{
         margin-right: 10px;
     }
+    .search-box{
+        position: relative;
+    }
 }
 </style>
