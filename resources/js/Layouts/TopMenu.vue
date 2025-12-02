@@ -52,43 +52,7 @@
 
             <div class="right">
                 <SearchMenu/>
-                <div class="lang-switcher">
-                    <div class="current" @click="toggle">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                             xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <circle cx="12" cy="12" r="12" fill="url(#pattern0_28_15)"/>
-                            <circle cx="12" cy="12" r="11.5" stroke="black" stroke-opacity="0.2"/>
-                            <defs>
-                                <pattern id="pattern0_28_15" patternContentUnits="objectBoundingBox" width="1"
-                                         height="1">
-                                    <use xlink:href="#image0_28_15" transform="scale(0.01)"/>
-                                </pattern>
-                                <image id="image0_28_15" width="100" height="100" preserveAspectRatio="none"
-                                       xlink:href="data:image/png;base64,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"/>
-                            </defs>
-                        </svg>
-
-                        {{ current.toUpperCase() }} <span class="arrow"><svg width="8" height="17" viewBox="0 0 8 17"
-                                                                             fill="none"
-                                                                             xmlns="http://www.w3.org/2000/svg">
-<path
-    d="M3.32833 16.3536C3.52359 16.5488 3.84018 16.5488 4.03544 16.3536L7.21742 13.1716C7.41268 12.9763 7.41268 12.6597 7.21742 12.4645C7.02216 12.2692 6.70557 12.2692 6.51031 12.4645L3.68188 15.2929L0.853458 12.4645C0.658195 12.2692 0.341613 12.2692 0.146351 12.4645C-0.0489113 12.6597 -0.0489113 12.9763 0.146351 13.1716L3.32833 16.3536ZM3.68188 0L3.18188 0L3.18188 16H3.68188H4.18188L4.18188 0L3.68188 0Z"
-    fill="black"/>
-</svg>
-</span>
-                    </div>
-
-                    <div class="dropdown" v-if="open">
-                        <div
-                            v-for="l in langs"
-                            :key="l"
-                            class="item"
-                            @click="select(l)"
-                        >
-                            {{ l.toUpperCase() }}
-                        </div>
-                    </div>
-                </div>
+                <LanguageSwitcher/>
             </div>
         </div>
     </div>
@@ -97,16 +61,9 @@
 <script setup>
 import {ref} from "vue";
 import SearchMenu from './SearchMenu.vue';
+import LanguageSwitcher from './LanguageSwitcher.vue'
 
-const langs = ["eng", "uzb", "rus"];
-const current = ref("rus");
-const open = ref(false);
 
-const toggle = () => (open.value = !open.value);
-const select = lang => {
-    current.value = lang;
-    open.value = false;
-};
 </script>
 
 <style scoped>

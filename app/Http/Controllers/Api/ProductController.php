@@ -10,12 +10,59 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     // Возвращает все товары с флагом is_hit = 1
-    public function hits()
+//    public function hits()
+//    {
+//        $products = Product::where('is_hit', 1)->get();
+//        return ProductResource::collection($products);
+//    }
+
+
+
+
+    public function filter(Request $request)
     {
-        $products = Product::where('is_hit', 1)->get();
+        $flag = $request->get('flag');   // например: hit, new, recommended, sale
+        $limit = $request->get('limit'); // например 12 (необязательно)
+
+        $query = Product::query();
+
+        // Фильтр по флагу
+        switch ($flag) {
+            case 'hit':
+                $query->orderByDesc('is_hit');
+                break;
+
+            case 'new':
+                $query->orderByDesc('is_new');
+                break;
+
+            case 'recommended':
+                $query->orderByDesc('is_recommended');
+                break;
+
+            case 'sale':
+                $query->orderByDesc('is_sale');
+                break;
+
+            default:
+                // Без фильтра — просто все товары со стандартной сортировкой
+                $query->orderBy('id');
+        }
+
+        // Лимит, если нужен
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        $products = $query->get();
+
         return ProductResource::collection($products);
     }
 
+
+
+
+    // Поиск через поисковое поле
     public function search(Request $request)
     {
         $request->validate([
@@ -26,9 +73,9 @@ class ProductController extends Controller
         $query = $request->q;
 
         $products = Product::query()
-            ->whereHas('translations', function($t) use ($query, $locale) {
+            ->whereHas('translations', function ($t) use ($query, $locale) {
                 $t->where('locale', $locale)
-                    ->where(function($sub) use ($query) {
+                    ->where(function ($sub) use ($query) {
                         $sub->where('name', 'LIKE', "%{$query}%")
                             ->orWhere('description', 'LIKE', "%{$query}%");
                     });

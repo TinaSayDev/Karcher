@@ -13,16 +13,27 @@
     </nav>
 </template>
 
-<script setup>
-import { Link } from '@inertiajs/vue3'
-const items = [
-    { label: "КАТАЛОГ", url: "/catalog" },
-    { label: "ДЛЯ ДОМА И САДА", url: "/home" },
-    { label: "ПРОФЕССИОНАЛЬНАЯ ТЕХНИКА", url: "/professional" },
-    { label: "ПОКУПКА И СЕРВИС", url: "/service" },
-    { label: "О КОМПАНИИ", url: "/about" },
-    { label: "БЛОГ", url: "/blog" }
-];
+<script>
+import { Link } from '@inertiajs/inertia-vue3';
+
+export default {
+    components: {
+        Link,
+    },
+    computed: {
+        items() {
+            const mainmenu = this.$page.props.mainmenu || {};
+            return [
+                { label: mainmenu.catalog || 'Catalog', url: '/catalog' },
+                { label: mainmenu.home_garden || 'Home & Garden', url: '/home' },
+                { label: mainmenu.professional || 'Professional', url: '/professional' },
+                { label: mainmenu.purchase_service || 'Service', url: '/service' },
+                { label: mainmenu.about || 'About', url: '/about' },
+                { label: mainmenu.blog || 'Blog', url: '/blog' },
+            ];
+        }
+    }
+}
 </script>
 
 <style scoped>

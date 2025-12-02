@@ -9,7 +9,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/products/hits', [ProductController::class, 'hits']);
+Route::get('/products/filter', [ProductController::class, 'filter']);
 Route::get('/search', [ProductController::class, 'search']);
 
 /* Routes for blog */

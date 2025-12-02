@@ -11,13 +11,21 @@ export default {
         return {
             pageTitle: 'О нас'
         }
+    },
+    props: {
+        breadcrumbs: {
+            default: () => [
+                { label: 'Главная', href: '/' },
+                { label: 'О нас' }
+            ]
+        }
     }
 }
 </script>
 
 
 <template>
-    <DefaultLayout :title="pageTitle">
+    <DefaultLayout :title="pageTitle" :breadcrumbs="breadcrumbs">
 
     <div class="content">
         <h3>Kärcher: The world Leader in Cleaning Technology since 1935</h3>

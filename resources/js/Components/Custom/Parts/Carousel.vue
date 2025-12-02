@@ -1,7 +1,6 @@
 <template>
     <div class="carousel-wrapper">
         <div class="carousel-track">
-
             <div
                 v-for="(slide, i) in slides"
                 :key="i"
@@ -9,13 +8,6 @@
                 :class="{ active: index === i }"
                 :style="{ backgroundImage: `url(${slide})` }"
             ></div>
-
-        </div>
-
-        <div class="text-block">
-            <h1>Мощь технологий</h1>
-            <p>Сила пара</p>
-            <a href="#" class="btn">Подробнее <span class="btn-arw">&gt;&gt;</span></a>
         </div>
 
         <div class="dots">
@@ -33,7 +25,6 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-// передаём слайды через пропсы
 const props = defineProps({
     slides: {
         type: Array,
@@ -88,39 +79,6 @@ onBeforeUnmount(() => {
 .slide.active {
     opacity: 1;
     transform: translateX(0);
-}
-
-/* Text block */
-.text-block {
-    position: absolute;
-    top: 50%;
-    left: 60px;
-    transform: translateY(-50%);
-    width: 40%;
-    color: #fff;
-    text-transform: uppercase;
-}
-
-.text-block h1 {
-    font-size: 48px;
-    margin: 0 0 20px;
-    font-weight: 700;
-}
-
-.text-block p {
-    font-size: 22px;
-    margin: 20px 0 30px;
-}
-
-.btn {
-    display: inline-block;
-    padding: 12px 26px;
-    background: none;
-    color: #fff;
-    border: 2px solid yellow;
-    border-radius: 25px;
-    font-weight: 500;
-    text-decoration: none;
 }
 
 /* dots */

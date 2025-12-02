@@ -9,22 +9,16 @@ class ProductResource extends JsonResource
     public function toArray($request)
     {
 
-        $tr = $this->translation;
+        $locale = app()->getLocale();
+        $translation = $this->translation($locale);
 
         return [
             'id' => $this->id,
-            'slug' => $this->slug,
+            'name' => $translation->name ?? $this->name,
+            'description' => $translation->description ?? $this->description,
             'price' => $this->price_new,
-            'name' => $tr->name ?? '',
-            'description' => $tr->description ?? '',
-            'images'=>$this->images ??  $this->image_main
+            'images' => $this->images,
+            'is_hit' => $this->is_hit,
         ];
-//        return [
-//            'id'    => $this->id,
-//            'name'  => $this->translation->name ?? $this->name ?? 'Название отсутствует',
-//            'price' => $this->price,
-//            'image_main' => $this->image_main ?? null,
-//            'images'=>$this->images ??  $this->image_main
-//        ];
     }
 }

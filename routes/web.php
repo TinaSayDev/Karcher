@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -17,6 +19,23 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return Inertia::render('About'); // имя Vue-компонента
 });
+Route::get('/blog', function () {
+    return Inertia::render('Blog'); // имя Vue-компонента
+});
+
+/**
+ * Смена языка и сохранение куки
+ */
+
+Route::post('/set-locale', function(Request $request){
+    $locale = $request->input('locale');
+    if (!in_array($locale, ['ru','uz','en'])) {
+        $locale = 'ru';
+    }
+    // сохраняем в cookie на 30 дней
+    return Inertia::location(url()->previous())->withCookie(cookie('locale', $locale, 60*24*30));
+});
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

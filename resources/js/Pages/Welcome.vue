@@ -11,12 +11,12 @@ defineOptions({
 })
 
 const banners = [
-    new URL('@/images/banners/banner1.jpg', import.meta.url).href,
-    new URL('@/images/banners/banner2.jpg', import.meta.url).href,
-    new URL('@/images/banners/banner3.jpg', import.meta.url).href,
-    new URL('@/images/banners/banner4.jpg', import.meta.url).href,
-    new URL('@/images/banners/banner5.jpg', import.meta.url).href,
-    new URL('@/images/banners/banner6.jpg', import.meta.url).href,
+    '/images/banners/banner1.webp',
+    '/images/banners/banner2.webp',
+    '/images/banners/banner3.webp',
+    '/images/banners/banner4.webp',
+    '/images/banners/banner5.webp',
+    '/images/banners/banner6.webp',
 ];
 
 </script>
