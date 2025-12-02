@@ -1,6 +1,6 @@
 <template>
     <nav class="main-menu container">
-        <a href="#"><img src="/storage/karcher_logo.png" width="123" height="32" alt=""></a>
+        <a href="/"><img src="/storage/karcher_logo.png" width="123" height="32" alt=""></a>
         <ul>
             <li v-for="item in items" :key="item.label">
                 <Link :href="item.url">
