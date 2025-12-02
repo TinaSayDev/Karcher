@@ -1,7 +1,7 @@
 <template>
     <div class="card" @mouseleave="reset" @click="openProduct">
 
-        <!-- Превью с fade -->
+        <!-- Превью слайдов -->
         <div class="image-wrapper" ref="wrapper">
             <img
                 v-for="(src, i) in images"
@@ -14,12 +14,19 @@
             />
         </div>
 
-        <!-- Бейдж (клика отключена) -->
-        <div class="badge" @click.stop>
-            {{ product.badge }}
+        <!-- Бейджи -->
+        <div
+            v-for="(badge, i) in badges"
+            :key="i"
+            class="badge"
+            :class="badge.color"
+            @click.stop
+            :style="{ top: `${15 + i*28}px` }"
+        >
+            {{ badge.text }}
         </div>
 
-        <!-- Навигация -->
+        <!-- Навигация по слайдам -->
         <div class="stars" @click.stop>
             <div
                 v-for="(img, i) in images"
@@ -27,6 +34,7 @@
                 :style="{ background: i === index ? '#F1DE04' : '#dddddd' }"
             ></div>
         </div>
+
         <Stars/>
         <div class="title">{{ product.name }}</div>
 
@@ -44,17 +52,17 @@
 </template>
 
 <script>
+
 import Stars from "./Parts/Stars.vue";
 import { formatPrice } from '@/utils/formatPrice.js';
 
 export default {
     name: "ProductCard",
-    components: {
-        Stars,
-    },
+    components: { Stars },
 
     props: {
-        product: {type: Object, required: true}
+        product: { type: Object, required: true },
+        activeFilter: { type: String, default: 'all' } // фильтр из родителя
     },
 
     data() {
@@ -67,6 +75,23 @@ export default {
     computed: {
         images() {
             return this.product.images ?? [];
+        },
+
+        badges() {
+            const badgeMap = {
+                hit: { text: 'ХИТ', color: 'badge-blue' },
+                recommended: { text: 'СОВЕТУЕМ', color: 'badge-purple' },
+                new: { text: 'НОВИНКА', color: 'badge-green' },
+                sale: { text: 'УЦЕНКА', color: 'badge-red' }
+            };
+
+            // Если выбран фильтр и есть соответствующее поле, выводим один бейдж
+            if (this.activeFilter !== 'all' && badgeMap[this.activeFilter]) {
+                return [badgeMap[this.activeFilter]];
+            }
+
+            // Для "весь каталог" можно оставить пустой массив, чтобы бейджей не было
+            return [];
         }
     },
 
@@ -90,13 +115,9 @@ export default {
 
         wrapper.addEventListener("touchmove", (e) => {
             const x = e.touches[0].clientX;
-            const zoneCount = this.images.length;
             const rect = wrapper.getBoundingClientRect();
             const zoneWidth = rect.width / zoneCount;
-
-            const relativeX = x - rect.left;
-            const newIndex = Math.floor(relativeX / zoneWidth);
-
+            const newIndex = Math.floor((x - rect.left) / zoneWidth);
             if (newIndex !== this.index && newIndex >= 0 && newIndex < zoneCount) {
                 this.index = newIndex;
             }
@@ -104,132 +125,38 @@ export default {
     },
 
     methods: {
-        reset() {
-            this.index = 0;
-        },
-
-        openProduct() {
-            this.$emit("open", this.product);
-        },
-
+        reset() { this.index = 0; },
+        openProduct() { this.$emit("open", this.product); },
         formatPrice
     }
 };
 </script>
 
 <style scoped>
+.card { position: relative; height: 469px; font-family: 'Montserrat', sans-serif; border: 1px solid #f5f4f4; padding: 20px; background: #fff; transition: box-shadow 0.25s ease, transform 0.15s ease; cursor: pointer; }
+.image-wrapper { position: absolute; width: 258px; height: 288px; overflow: hidden; left: 25px; }
+.image-slide { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.35s ease; pointer-events: none; }
+.image-slide.active { opacity: 1; }
 
-.card {
-    position: relative;
-    height: 469px;
-    font-family: 'Montserrat', sans-serif;
-    border: 1px solid #f5f4f4;
-    padding: 20px;
-    background: #fff;
-    transition: box-shadow 0.25s ease, transform 0.15s ease;
-    cursor: pointer;
-}
+.badge { position: absolute; left: 25px; padding: 2px 6px; border-radius: 2px; color: white; font-size: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: default; }
 
-/* Wrapper to stack images */
-.image-wrapper {
-    position: absolute;
-    width: 258px;
-    height: 288px;
-    overflow: hidden;
-    left: 25px;
-}
+/* Цвета бейджей */
+.badge-blue { background: #2992d9; }
+.badge-green { background: #28a745; }
+.badge-purple { background: #6f42c1; }
+.badge-red { background: #dc3545; }
 
-/* All images layered */
-.image-slide {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.35s ease;
-    pointer-events: none;
-}
+.stars { position: absolute; left: 25px; top: 312.5px; width: 258px; display: flex; }
+.stars div { flex: 1; height: 1px; background: #dddddd; border-radius: 2px; margin-right: 4px; }
+.stars div:last-child { margin-right: 0; }
 
-.image-slide.active {
-    opacity: 1;
-}
+.title { position: absolute; left: 25px; top: 359px; font-size: 14px; color: #333; }
 
-.badge {
-    position: absolute;
-    left: 25px;
-    top: 25px;
-    width: 35.63px;
-    height: 24.3px;
-    background: #2992d9;
-    border-radius: 2px;
-    color: white;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: default;
-}
+.stock { position: absolute; left: 25px; top: 390px; display: flex; align-items: center; gap: 10px; }
+.stock .dot { width: 5px; height: 5px; background: #5fa800; border-radius: 50%; }
+.stock .text { font-size: 12px; color: #5fa800; }
 
-/** Navigation lines **/
-
-.stars {
-    position: absolute;
-    left: 25px; /* отступ от левого края карточки */
-    top: 312.5px; /* от верхнего края карточки */
-    width: 258px; /* равна ширине превью */
-    display: flex;
-}
-
-.stars div {
-    flex: 1; /* равное деление зоны для каждой звёздочки */
-    height: 1px;
-    background: #dddddd;
-    border-radius: 2px;
-    margin-right: 4px; /* промежуток между зонами, кроме последней */
-}
-
-.stars div:last-child {
-    margin-right: 0; /* убираем отступ у последней */
-}
-
-/** Navigation lines end  **/
-
-.title {
-    position: absolute;
-    left: 25px;
-    top: 359px;
-    font-size: 14px;
-    color: #333;
-}
-
-.stock {
-    position: absolute;
-    left: 25px;
-    top: 390px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.stock .dot {
-    width: 5px;
-    height: 5px;
-    background: #5fa800;
-    border-radius: 50%;
-}
-
-.stock .text {
-    font-size: 12px;
-    color: #5fa800;
-}
-
-.price {
-    position: absolute;
-    left: 25px;
-    top: 418px;
-    font-size: 17px;
-    font-weight: 700;
-}
+.price { position: absolute; left: 25px; top: 418px; font-size: 17px; font-weight: 700; }
 
 .details{
     position: absolute;
@@ -240,20 +167,17 @@ export default {
     text-align: center;
     opacity: 0;
 }
-
 .details-btn {
     background: #F1DE04;
     color: black;
     padding: 8px 16px;
-    position: relative;
-    overflow: hidden; /* чтобы ripple не выходил за границы */
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
     transition: background 0.3s, transform 0.2s;
 }
-
-/* ripple circle */
 .details-btn::after {
     content: "";
     position: absolute;
@@ -270,25 +194,15 @@ export default {
     left: 50%;
     transform-origin: center;
 }
-/* Hover без смещения сетки */
-.card:hover {
-    position: relative;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12),
-    0 2px 6px rgba(0, 0, 0, 0.08);
-    z-index: 2; /* чтобы тень не перекрывалась соседними карточками */
-}
-
-.card:hover .details{
-    opacity: 1;
-    box-shadow:
-        2px 4px 8px rgba(0, 0, 0, 0.08),   /* правая и нижняя тень */
-        -2px 4px 8px rgba(0, 0, 0, 0.08),   /* левая и нижняя тень */
-        0 6px 12px rgba(0, 0, 0, 0.12);     /* основная нижняя тень */
-}
-/* активируем ripple при hover */
 .card:hover .details-btn::after {
     transform: scale(4);
     opacity: 1;
     transition: transform 0.6s ease-out, opacity 0.6s ease-out;
 }
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+    z-index: 2;
+}
+.card:hover .details { opacity: 1; }
 </style>
