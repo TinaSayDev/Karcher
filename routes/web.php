@@ -22,7 +22,9 @@ Route::get('/about', function () {
 Route::get('/blog', function () {
     return Inertia::render('Blog'); // имя Vue-компонента
 });
-
+Route::get('/categories/{slug?}', function ($slug = null) {
+    return Inertia::render('Categories', ['slug' => $slug]);
+});
 /**
  * Смена языка и сохранение куки
  */

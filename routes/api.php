@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
@@ -11,6 +12,13 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/products/filter', [ProductController::class, 'filter']);
 Route::get('/search', [ProductController::class, 'search']);
+
+// корневые категории
+Route::get('/categories', [CategoryController::class, 'index']);
+
+// дочерние категории по slug
+Route::get('/categories/{slug}', [CategoryController::class, 'show']);
+
 
 /* Routes for blog */
 

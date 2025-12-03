@@ -10,31 +10,33 @@ class Category extends Model
 {
     protected $fillable = [
         'parent_id',
-        'type',
-        'slug',
+        'image',
     ];
 
-    // Родительская категория
-    public function parent(): BelongsTo
+    // Все переводы
+    public function translations() {
+        return $this->hasMany(CategoryTranslation::class, 'category_id');
+    }
+
+    // Один перевод для текущего locale
+    public function translation() {
+        return $this->hasOne(CategoryTranslation::class, 'category_id')
+            ->where('locale', app()->getLocale());
+    }
+
+    // Дочерние категории
+    public function children() {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function parent()
     {
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
-    // Дочерние категории
-    public function children(): HasMany
-    {
-        return $this->hasMany(Category::class, 'parent_id');
-    }
-
-    // Переводы категории
-    public function translations(): HasMany
-    {
-        return $this->hasMany(CategoryTranslation::class);
-    }
-
-    // Продукты этой категории
-    public function products(): HasMany
+    public function products()
     {
         return $this->hasMany(Product::class);
     }
+
 }

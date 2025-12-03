@@ -24,7 +24,7 @@ export default {
         items() {
             const mainmenu = this.$page.props.mainmenu || {};
             return [
-                { label: mainmenu.catalog || 'Catalog', url: '/catalog' },
+                { label: mainmenu.catalog || 'Catalog', url: '/categories' },
                 { label: mainmenu.home_garden || 'Home & Garden', url: '/home' },
                 { label: mainmenu.professional || 'Professional', url: '/professional' },
                 { label: mainmenu.purchase_service || 'Service', url: '/service' },
