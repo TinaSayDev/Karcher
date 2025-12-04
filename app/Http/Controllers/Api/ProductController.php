@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Http\Resources\ProductResource;
+use App\Models\ProductTranslation;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -75,6 +76,20 @@ class ProductController extends Controller
             ->get();
 
         return ProductResource::collection($products);
+    }
+
+    public function show($slug)
+    {
+        $locale = app()->getLocale();
+
+        $translation = ProductTranslation::where('slug', $slug)
+            ->where('locale', $locale)
+            ->firstOrFail();
+
+        $product = Product::with(['translations', 'category.translations'])
+            ->findOrFail($translation->product_id);
+
+        return new ProductResource($product);
     }
 
 }

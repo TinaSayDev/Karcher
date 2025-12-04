@@ -25,6 +25,12 @@ Route::get('/blog', function () {
 Route::get('/categories/{slug?}', function ($slug = null) {
     return Inertia::render('Categories', ['slug' => $slug]);
 });
+
+Route::get('/products/{slug}', function($slug) {
+    return Inertia::render('ProductDetail', ['slug' => $slug]);
+
+});
+
 /**
  * Смена языка и сохранение куки
  */

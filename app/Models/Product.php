@@ -16,8 +16,6 @@ class Product extends Model
         'image_main',
         'images',
         'catalog_images',
-        'specifications',
-        'equipment',
         'is_hit',
         'is_new',
         'is_recommended',
@@ -27,9 +25,12 @@ class Product extends Model
     protected $casts = [
         'images' => 'array',
         'catalog_images' => 'array',
-        'specifications' => 'array',
-        'equipment' => 'array',
+        'is_hit' => 'boolean',
+        'is_new' => 'boolean',
+        'is_recommended' => 'boolean',
+        'is_sale' => 'boolean',
     ];
+
 
     public function translations()
     {
@@ -46,6 +47,12 @@ class Product extends Model
                 ->first()
             ?? $this->translations()->where('locale', 'ru')->first();
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
 
 
     // Удобные методы для меток

@@ -52,6 +52,8 @@
                                     v-for="product in cat.products"
                                     :key="product.id"
                                 >
+                                    <a :href="`/products/${product.slug}`">
+
                                     <img
                                         :src="product.image_main
                                             ? `/images/products/${product.image_main}`
@@ -60,6 +62,7 @@
                                     />
                                     <h4>{{ product.name }}</h4>
                                     <p class="price">{{ product.price }} €</p>
+                                    </a>
                                 </div>
                             </div>
                         </div>

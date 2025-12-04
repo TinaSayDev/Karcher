@@ -10,8 +10,14 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+// товары
 Route::get('/products/filter', [ProductController::class, 'filter']);
 Route::get('/search', [ProductController::class, 'search']);
+// 1 товар
+Route::get('/products/{slug}', [ProductController::class, 'show'])->name('api.products.show');
+
+/*Route::get('/products/{slug}', [ProductController::class, 'show']);*/
+
 
 // корневые категории
 Route::get('/categories', [CategoryController::class, 'index']);
