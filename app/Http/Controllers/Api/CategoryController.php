@@ -2,7 +2,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Models\Category;
+use App\Models\Product;
 use App\Http\Resources\CategoryResource;
 use App\Models\CategoryTranslation;
 
@@ -75,5 +77,18 @@ class CategoryController extends Controller
             'category' => new CategoryResource($category),
             'items'    => CategoryResource::collection($children),
         ]);
+    }
+
+    public function products($id)
+    {
+        $locale = app()->getLocale();
+
+        $products = Product::where('category_id', $id)
+            ->with(['translations' => function($query) use ($locale) {
+                $query->where('locale', $locale);
+            }])
+            ->get();
+
+        return ProductResource::collection($products);
     }
 }

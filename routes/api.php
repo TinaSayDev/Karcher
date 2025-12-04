@@ -14,9 +14,7 @@ Route::get('/user', function (Request $request) {
 Route::get('/products/filter', [ProductController::class, 'filter']);
 Route::get('/search', [ProductController::class, 'search']);
 // 1 товар
-Route::get('/products/{slug}', [ProductController::class, 'show'])->name('api.products.show');
-
-/*Route::get('/products/{slug}', [ProductController::class, 'show']);*/
+Route::get('/products/{slug}', [ProductController::class, 'show']);
 
 
 // корневые категории
@@ -24,6 +22,8 @@ Route::get('/categories', [CategoryController::class, 'index']);
 
 // дочерние категории по slug
 Route::get('/categories/{slug}', [CategoryController::class, 'show']);
+
+Route::get('/categories/{id}/products', [CategoryController::class, 'products']);
 
 
 /* Routes for blog */

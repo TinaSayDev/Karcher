@@ -34,6 +34,9 @@
 
             <!-- Tabs -->
             <ProductTabs :tabs="product.tabs" />
+
+            <RelatedProducts :products="relatedProducts" />
+
         </div>
     </DefaultLayout>
 </template>
@@ -41,10 +44,11 @@
 <script>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue'
 import ProductTabs from "@/Components/Custom/ProductTabs.vue";
+import RelatedProducts from "@/Components/Custom/RelatedProducts.vue";
 import axios from 'axios'
 
 export default {
-    components: { DefaultLayout, ProductTabs },
+    components: { DefaultLayout, ProductTabs, RelatedProducts },
 
     props: {
         slug: {
@@ -60,6 +64,7 @@ export default {
             error: null,
             breadcrumbs: [],
             mainImage: null,
+            relatedProducts: [], // <-- сюда будут подтягиваться товары из той же категории
         }
     },
 
@@ -83,6 +88,15 @@ export default {
 
                 this.product = res.data.data
                 this.mainImage = this.product.image_main ?? this.product.images?.[0]
+                // Подтягиваем связанные товары из этой же категории
+                const related = await axios.get(`/api/categories/${this.product.category_id}/products`, { headers })
+                console.log(related);       // что приходит
+                console.log(related.data);  // должно быть массив
+                // Фильтруем, чтобы не было текущего продукта в списке
+
+                this.relatedProducts = related.data.data.filter(p => p.id !== this.product.id)
+
+
 
                 this.breadcrumbs = [
                     { label: 'Главная', href: '/' },
