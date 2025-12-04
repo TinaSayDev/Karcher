@@ -18,6 +18,7 @@ class ProductResource extends JsonResource
             'description' => $translation->description ?? $this->description,
             'price' => $this->price_new,
             'images' => $this->images,
+            'image_main'=>$this->image_main,
             'is_hit' => $this->is_hit,
         ];
 
