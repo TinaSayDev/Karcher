@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AboutPageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -16,9 +17,13 @@ Route::get('/', function () {
     ]);
 });
 // Pages navigation
-Route::get('/about', function () {
+/*Route::get('/about', function () {
     return Inertia::render('About'); // имя Vue-компонента
-});
+});*/
+
+Route::get('/about', [AboutPageController::class, 'index']);
+
+
 Route::get('/blog', function () {
     return Inertia::render('Blog'); // имя Vue-компонента
 });
