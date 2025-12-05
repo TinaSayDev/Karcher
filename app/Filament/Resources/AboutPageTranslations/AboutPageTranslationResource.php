@@ -19,7 +19,7 @@ class AboutPageTranslationResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $recordTitleAttribute = 'Page';
+    protected static ?string $recordTitleAttribute = 'Страница';
 
     public static function form(Schema $schema): Schema
     {

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AboutPageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Api\PostController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,9 +25,10 @@ Route::get('/', function () {
 Route::get('/about', [AboutPageController::class, 'index']);
 
 
-Route::get('/blog', function () {
-    return Inertia::render('Blog'); // имя Vue-компонента
-});
+Route::get('/blog',[PostController::class,'index']);
+Route::get('/blog/{slug}', [PostController::class, 'show']);
+
+
 Route::get('/categories/{slug?}', function ($slug = null) {
     return Inertia::render('Categories', ['slug' => $slug]);
 });

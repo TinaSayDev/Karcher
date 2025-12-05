@@ -1,5 +1,5 @@
 <template>
-    <DefaultLayout :title="pageTitle" :breadcrumbs="breadcrumbs">
+    <DefaultLayout :title="page?.title || 'Блог'" >
         <section class="blog-section container">
             <div class="posts-grid">
                 <a
@@ -10,12 +10,12 @@
                 >
                     <div
                         class="post-image"
-                        :style="{ backgroundImage: `url(/images/${post.image})` }"
+                        :style="{ backgroundImage: `url(/storage/${post.image})` }"
                     ></div>
                     <div class="post-text">
                         <div class="post-date">{{ formatDate(post.published_at) }}</div>
-                        <h3 class="post-title">{{ post.translation?.title }}</h3>
-                        <p class="post-excerpt">{{ post.translation?.excerpt }}</p>
+                        <h3 class="post-title">{{ post.title }}</h3>
+                        <p class="post-excerpt">{{ post.excerpt }}</p>
                     </div>
                 </a>
             </div>
@@ -25,34 +25,14 @@
 
 <script>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
-import axios from 'axios';
 
 export default {
     name: 'Blog',
     components: {
         DefaultLayout,
     },
-    data() {
-        return {
-            posts: [],
-            pageTitle: 'Блог'
-        };
-    },
     props: {
-        breadcrumbs: {
-            default: () => [
-                { label: 'Главная', href: '/' },
-                { label: 'Блог' }
-            ]
-        }
-    },
-    async mounted() {
-        try {
-            const resp = await axios.get('/api/blog/posts');
-            this.posts = resp.data;
-        } catch (e) {
-            console.error(e);
-        }
+        posts: Array
     },
     methods: {
         formatDate(date) {
@@ -61,7 +41,7 @@ export default {
             return d.toLocaleDateString();
         },
     },
-};
+}
 </script>
 
 <style scoped>

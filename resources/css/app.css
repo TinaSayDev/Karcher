@@ -105,6 +105,13 @@ a:hover .line {
 li.active {
     border-bottom: 3px solid #ffd800;
 }
+
+.ProseMirror{
+    overflow: scroll;
+}
+.rich-text-content-wrapper { /* Replace with your actual container class */
+    overflow-x: auto;
+}
 @media (max-width: 1200px) {
     .products-grid {
         grid-template-columns: repeat(3, 1fr);
