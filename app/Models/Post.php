@@ -17,7 +17,4 @@ class Post extends Model
         return $this->translations->where('locale',$locale)->first();
     }
 
-    public function categories() {
-        return $this->belongsToMany(PostCategory::class, 'post_post_category');
-    }
 }

@@ -7,13 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CategoryTranslation extends Model
 {
-    protected $fillable = [
-        'category_id',
-        'locale',
-        'name',
-        'slug',
-        'description',
-    ];
+    protected $fillable = ['category_id', 'locale', 'name', 'slug', 'description'];
 
     public function category(): BelongsTo
     {
