@@ -205,4 +205,8 @@ export default {
     z-index: 2;
 }
 .card:hover .details { opacity: 1; }
+@media (max-width: 800px) {
+    .card:hover .details { opacity: 0; }
+
+}
 </style>

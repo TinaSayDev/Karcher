@@ -23,7 +23,7 @@ p{
 }
 
 .container{
-    width: 1188px;
+    max-width: 1188px;
     margin: 0 auto;
 }
 
@@ -51,7 +51,7 @@ p{
 }
 
 .products-grid {
-    width: 80%;
+    max-width: 1348px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -61,12 +61,12 @@ p{
     font-size: 24px;
 }
 .catalog-nav{
-    width: 80%;
+    max-width: 1348px;
     display: flex;
     justify-content: space-between;
     align-content: center;
     margin:0 auto;
-    padding: 20px 10px;
+    padding: 60px 10px 20px 10px;
     align-items: center;
 }
 ul.right{
@@ -102,9 +102,6 @@ ul.right li:last-child a {
 a:hover .line {
     width: 100%;
 }
-li.active {
-    border-bottom: 3px solid #ffd800;
-}
 
 .ProseMirror{
     overflow: scroll;
@@ -127,5 +124,15 @@ li.active {
 @media (max-width: 600px) {
     .products-grid {
         grid-template-columns: repeat(1, 1fr);
+    }
+
+    .catalog-nav{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    ul.right{
+        flex-direction: column;
+        align-items: flex-start;
     }
 }

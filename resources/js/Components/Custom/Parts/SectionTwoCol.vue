@@ -15,8 +15,8 @@
             :style="{ backgroundImage: `url(${col2})` }"
         >
             <a class="info-block" href="#">
-                <h3>Бытовая техника</h3>
-                <p>Техника для уборки дома и сада</p>
+                <h3>Профессиональная техника</h3>
+                <p>Уборочная техника для бизнеса</p>
             </a>
         </div>
     </section>
@@ -32,6 +32,7 @@ const col2 = '/images/col2.webp'
     width: 100%;
     height: 720px;
     display: flex;
+    font-family: 'Roboto',sans-serif;
 }
 
 .col {
@@ -63,12 +64,11 @@ const col2 = '/images/col2.webp'
     font-size: 28px;
     font-weight: 700;
     color: #000;
+    text-transform: uppercase;
 }
 
 .info-block p {
-    margin: 6px 0 0;
-    font-size: 16px;
-    color: #000;
+    font-size: 14px;
 }
 
 .info-block:hover {
@@ -78,6 +78,10 @@ const col2 = '/images/col2.webp'
 @media (max-width: 800px) {
     .section-2col {
         flex-direction: column;
+    }
+
+    .info-block h3{
+        font-size: 20px;
     }
 }
 </style>

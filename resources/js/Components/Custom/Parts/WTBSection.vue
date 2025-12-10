@@ -44,12 +44,14 @@ const items = [
 
 <style scoped>
 .wtb-section {
-    width: 80%;
+    max-width: 1260px;
     margin: 0 auto;
-    padding: 40px 0;
+    padding: 100px 0 50px 0;
+    margin-bottom: 50px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
+    border-bottom: 1px solid #eee;
 }
 
 .wtb-card {

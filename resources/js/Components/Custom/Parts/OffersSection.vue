@@ -1,4 +1,5 @@
 <template>
+    <div class="gray">
     <div class="section-wrapper">
         <h2>Выгодные предложения</h2>
 
@@ -15,6 +16,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </template>
 
@@ -45,15 +47,16 @@ const offers = [
 
 <style scoped>
 .section-wrapper {
-    width: 100%;
-    padding: 40px 30px 0;
-    box-sizing: border-box;
+    padding: 60px 10px;
+    max-width: 1348px;
+    margin: 0 auto;
 }
 
 .section-wrapper h2 {
     margin: 0 0 20px;
-    font-size: 28px;
-    font-weight: 600;
+    font-weight: 400;
+    color: #333333;
+    font-size: 24px;
 }
 
 .offers-row {
@@ -68,7 +71,7 @@ const offers = [
     position: relative;
     background-size: cover;
     background-position: center;
-    border-radius: 10px;
+    border-radius: 3px;
     overflow: hidden;
     transition: transform 0.3s ease, filter 0.3s ease;
 }
@@ -89,8 +92,8 @@ const offers = [
 }
 
 .offer-info .title {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 400;
     margin-top: 4px;
 }
 

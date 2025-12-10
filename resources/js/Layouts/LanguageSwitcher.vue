@@ -128,8 +128,6 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
     align-items: center;
     gap: 8px;
     background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 50px;
     padding: 6px 12px;
     cursor: pointer;
 }

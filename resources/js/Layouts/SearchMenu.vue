@@ -102,7 +102,7 @@ const submit = async () => {
 .search-box {
     position: absolute;
     right: 0;
-    top: 0px;
+    top: 6px;
     width: 260px;
     display: flex;
     align-items: center;

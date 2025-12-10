@@ -42,13 +42,14 @@ export default {
     justify-content: space-between;
     padding: 20px 5px;
     font-size: 14px;
+    font-weight: 500;
     background: #fff;
     align-items: center;
     justify-self: center;
 }
 ul {
     display: flex;
-    gap: 40px;
+    gap: 32px;
 }
 li {
     position: relative;

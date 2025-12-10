@@ -75,3 +75,43 @@ function openProduct(product) {
     console.log('Открыть продукт', product);
 }
 </script>
+<style scoped>
+.right li a {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 4px;
+    color: #000;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+/* линия */
+.right li a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    background: #f5c600; /* жёлтая линия */
+
+    transform: translateX(-100%);  /* изначально скрыта слева */
+    transition: transform 0.3s ease;
+}
+
+/* при ховере — линия растёт слева → направо */
+.right li a:hover::after {
+    transform: translateX(0);
+}
+
+/* при уходе — линия уходит справа → налево */
+.right li a:not(:hover)::after {
+    transform: translateX(100%);
+}
+
+/* активный пункт — линия всегда видна */
+.right li.active a::after {
+    transform: translateX(0);
+}
+
+</style>

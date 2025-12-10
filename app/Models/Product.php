@@ -37,15 +37,11 @@ class Product extends Model
         return $this->hasMany(ProductTranslation::class);
     }
 
-    // текущее активное на выбранной локали
+    // перевод под текущий locale
     public function translation($locale = null)
     {
         $locale = $locale ?? app()->getLocale();
-
-        return $this->translations()
-                ->where('locale', $locale)
-                ->first()
-            ?? $this->translations()->where('locale', 'ru')->first();
+        return $this->translations->where('locale',$locale)->first();
     }
 
     public function category()

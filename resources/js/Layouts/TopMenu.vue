@@ -1,6 +1,6 @@
 <template>
     <div class="top-menu">
-        <div class="container flex justify-between">
+        <div class="container flex justify-between items-center">
             <div class="left">
                 <div class="socials">
                     <a href="#">
@@ -68,7 +68,7 @@ import LanguageSwitcher from './LanguageSwitcher.vue'
 
 <style scoped>
 .top-menu {
-    padding: 20px;
+    padding: 15px 5px;
     font-size: 14px;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
