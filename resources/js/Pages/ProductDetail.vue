@@ -5,56 +5,55 @@
 
         <div v-else class="product-detail container">
             <div class="product-detail-flex">
-                <!-- Карусель изображений -->
+                <!-- Слева: Карусель изображений -->
                 <div class="product-carousel">
                     <img
-                        :src="mainImage ? `/images/products/${mainImage}` : '/images/noimg.png'"
+                        :src="mainImage ? getImageUrl(mainImage) : '/images/noimg.png'"
                         class="main-img"
                     />
 
                     <div class="thumbs">
                         <img
-                            v-for="(img, index) in product.images"
+                            v-for="(img, index) in allImages"
                             :key="index"
-                            :src="`/images/products/${img}`"
+                            :src="getImageUrl(img)"
                             class="thumb-img"
+                            :class="{ active: img === mainImage }"
                             @click="mainImage = img"
                         />
                     </div>
                 </div>
 
-                <!-- Текстовый блок -->
+                <!-- Справа: Текстовая информация -->
                 <div class="product-info">
                     <h1>{{ product.name }}</h1>
                     <p><strong>Code:</strong> {{ product.code }}</p>
-                    <p><strong>Category:</strong> {{ product.category?.name }}</p>
-                    <p v-if="product.short_description"><strong>Description:</strong> {{ product.short_description }}</p>
+                    <p><strong>Category:</strong>
+                        <a :href="`/categories/${product.category?.slug}`">{{ product.category?.name }}</a>
+                    </p>
+                    <p v-if="product.short_description">
+                        <strong>Description:</strong> {{ product.short_description }}
+                    </p>
+                    <p><strong>Price:</strong> {{ product.price_new }} €</p>
                 </div>
             </div>
 
-            <!-- Tabs -->
-            <ProductTabs :tabs="product.tabs" />
-
-            <RelatedProducts :products="relatedProducts" />
-
+            <!-- Related Products -->
+            <RelatedProducts v-if="relatedProducts.length" :products="relatedProducts" />
         </div>
     </DefaultLayout>
 </template>
 
 <script>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue'
-import ProductTabs from "@/Components/Custom/ProductTabs.vue";
 import RelatedProducts from "@/Components/Custom/RelatedProducts.vue";
 import axios from 'axios'
 
 export default {
-    components: { DefaultLayout, ProductTabs, RelatedProducts },
+    components: { DefaultLayout, RelatedProducts },
 
     props: {
-        slug: {
-            type: String,
-            required: true,
-        },
+        slug: { type: String, required: true }
     },
 
     data() {
@@ -64,46 +63,56 @@ export default {
             error: null,
             breadcrumbs: [],
             mainImage: null,
-            relatedProducts: [], // <-- сюда будут подтягиваться товары из той же категории
+            relatedProducts: [],
         }
     },
 
     watch: {
-        slug: {
-            handler() {
-                this.loadProduct()
-            },
-            immediate: true
+        slug: { handler: 'loadProduct', immediate: true }
+    },
+
+    computed: {
+        allImages() {
+            const imgs = []
+            if (this.product.image_main) imgs.push(this.product.image_main)
+            if (this.product.images?.length) imgs.push(...this.product.images)
+            return imgs.slice(0, 5) // максимум 5 изображений
         }
     },
 
     methods: {
+        getImageUrl(filename) {
+            return filename.startsWith('products/')
+                ? `/storage/${filename}`
+                : `/storage/products/${filename}`
+        },
+
         async loadProduct() {
             this.loading = true
             this.error = null
 
             try {
-                const headers = { 'X-Locale': document.cookie.match(/locale=([^;]+)/)?.[1] || 'ru' }
-                const res = await axios.get(`/api/products/${this.slug}`, { headers })
+                const locale = document.cookie.match(/locale=([^;]+)/)?.[1] || 'ru'
+                const headers = { 'X-Locale': locale }
 
+                const res = await axios.get(`/api/products/${this.slug}`, { headers })
                 this.product = res.data.data
                 this.mainImage = this.product.image_main ?? this.product.images?.[0]
-                // Подтягиваем связанные товары из этой же категории
-                const related = await axios.get(`/api/categories/${this.product.category_id}/products`, { headers })
-                console.log(related);       // что приходит
-                console.log(related.data);  // должно быть массив
-                // Фильтруем, чтобы не было текущего продукта в списке
 
-                this.relatedProducts = related.data.data.filter(p => p.id !== this.product.id)
-
-
-
+                // Breadcrumbs
                 this.breadcrumbs = [
                     { label: 'Главная', href: '/' },
                     { label: 'Каталог', href: '/categories' },
                     { label: this.product.category?.name, href: `/categories/${this.product.category?.slug}` },
-                    { label: this.product.name },
+                    { label: this.product.name }
                 ]
+
+                // Related products из той же категории (не включая текущий продукт)
+                if (this.product.category?.products) {
+                    this.relatedProducts = this.product.category.products
+                        .filter(p => p.id !== this.product.id)
+                }
+
             } catch (e) {
                 console.error(e)
                 this.error = 'Ошибка загрузки'
@@ -122,6 +131,7 @@ export default {
     gap: 30px;
 }
 
+/* Карусель изображений */
 .product-carousel {
     flex: 1;
     max-width: 578px;
@@ -129,23 +139,30 @@ export default {
 
 .main-img {
     width: 100%;
-    margin-bottom: 10px;
     border-radius: 5px;
-    border: 1px solid #cccccc;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
 }
 
 .thumbs {
     display: flex;
     gap: 10px;
-    justify-content: space-between;
 }
 
 .thumb-img {
-    width: 121px;
+    width: 100px;
+    height: 80px;
+    object-fit: cover;
     cursor: pointer;
     border-radius: 5px;
+    border: 2px solid transparent;
 }
 
+.thumb-img.active {
+    border-color: #007bff;
+}
+
+/* Текстовая информация */
 .product-info {
     flex: 1;
     min-width: 300px;
@@ -155,11 +172,8 @@ export default {
     margin-bottom: 15px;
 }
 
-.product-info ul {
-    padding-left: 20px;
-}
-
-.product-info ul li {
-    margin-bottom: 5px;
+.product-info a {
+    color: #007bff;
+    text-decoration: none;
 }
 </style>

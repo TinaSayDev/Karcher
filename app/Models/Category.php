@@ -10,30 +10,32 @@ class Category extends Model
 {
     protected $fillable = ['parent_id', 'image'];
 
-    // Все переводы
+    // все переводы
     public function translations(): HasMany
     {
         return $this->hasMany(CategoryTranslation::class, 'category_id');
     }
 
-    // Один перевод для текущего locale
+    // перевод под текущий locale
     public function translation($locale = null)
     {
         $locale = $locale ?? app()->getLocale();
-        return $this->translations->firstWhere('locale', $locale);
+        return $this->translations->where('locale',$locale)->first();
     }
 
-    // Дочерние категории
+    // дочерние категории
     public function children(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
 
+    // родительская категория
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
+    // уровень вложенности
     public function getLevelAttribute(): int
     {
         $level = 0;
@@ -45,9 +47,15 @@ class Category extends Model
         return $level;
     }
 
-    // Русское название для таблицы
+    // русское название (для таблиц/админки)
     public function getRuNameAttribute()
     {
         return optional($this->translation('ru'))->name;
+    }
+
+    // продукты категории
+    public function products(): HasMany
+    {
+        return $this->hasMany(\App\Models\Product::class, 'category_id');
     }
 }

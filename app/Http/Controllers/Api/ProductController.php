@@ -78,18 +78,20 @@ class ProductController extends Controller
         return ProductResource::collection($products);
     }
 
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
-        $locale = app()->getLocale();
+        $locale = $request->header('X-Locale') ?? app()->getLocale();
 
+        // Ищем перевод продукта для текущей локали или fallback на ru
         $translation = ProductTranslation::where('slug', $slug)
-            ->where('locale', $locale)
+            ->whereIn('locale', [$locale, 'ru'])
             ->firstOrFail();
 
-        $product = Product::with(['translations', 'category.translations'])
+        // Получаем сам продукт с категорией и переводами
+        $product = Product::with(['translations', 'category.translations', 'category.products.translations'])
             ->findOrFail($translation->product_id);
 
-        return new ProductResource($product);
+        return new ProductResource($product, $locale);
     }
 
 }

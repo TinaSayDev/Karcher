@@ -9,12 +9,15 @@
         <div class="products-wrapper">
             <div class="products-row" :style="{ transform: `translateX(-${currentIndex * cardWidth}px)` }">
                 <div class="product-card" v-for="product in products" :key="product.id">
-                    <img
-                        :src="product.image_main ? `/images/products/${product.image_main}` : '/images/noimg.png'"
-                        class="product-img"
-                    />
-                    <h4>{{ product.name }}</h4>
-                    <p class="price">{{ product.price }} €</p>
+                    <a :href="`/products/${product.slug}`">
+
+                        <img
+                            :src="product.image_main ? `/images/products/${product.image_main}` : '/images/noimg.png'"
+                            class="product-img"
+                        />
+                        <h4>{{ product.name }}</h4>
+                        <p class="price">{{ product.price }} €</p>
+                    </a>
                 </div>
             </div>
         </div>

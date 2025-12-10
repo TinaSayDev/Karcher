@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AboutPageController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Api\PostController;
 use Illuminate\Foundation\Application;
@@ -27,11 +28,15 @@ Route::get('/about', [AboutPageController::class, 'index']);
 
 Route::get('/blog',[PostController::class,'index']);
 Route::get('/blog/{slug}', [PostController::class, 'show']);
+// корневые категории
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{slug}', [CategoryController::class, 'show']);
 
+/*
+Route::get('/categories', [CategoryController::class, 'index']);
 
-Route::get('/categories/{slug?}', function ($slug = null) {
-    return Inertia::render('Categories', ['slug' => $slug]);
-});
+// дочерние категории по slug
+Route::get('/categories/{slug}', [CategoryController::class, 'show']);*/
 
 Route::get('/products/{slug}', function($slug) {
     return Inertia::render('ProductDetail', ['slug' => $slug]);
