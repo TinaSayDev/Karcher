@@ -23,6 +23,13 @@ class Category extends Model
         return $this->translations->where('locale',$locale)->first();
     }
 
+    public function getNameRuAttribute()
+    {
+        return $this->translations()
+            ->where('locale', 'ru')
+            ->value('name');
+    }
+
     // дочерние категории
     public function children(): HasMany
     {
