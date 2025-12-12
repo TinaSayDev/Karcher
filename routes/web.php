@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Api\AboutPageController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Api\PostController;
 use Illuminate\Foundation\Application;
@@ -20,12 +22,9 @@ Route::get('/', function () {
     ]);
 });
 // Pages navigation
-/*Route::get('/about', function () {
-    return Inertia::render('About'); // имя Vue-компонента
-});*/
 
-Route::get('/about', [AboutPageController::class, 'index']);
-
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/contacts', [PageController::class, 'contacts'])->name('contacts');
 
 Route::get('/blog',[PostController::class,'index']);
 Route::get('/blog/{slug}', [PostController::class, 'show']);
@@ -33,13 +32,10 @@ Route::get('/blog/{slug}', [PostController::class, 'show']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{slug}', [CategoryController::class, 'show']);
 
-/*
-Route::get('/categories', [CategoryController::class, 'index']);
-
-// дочерние категории по slug
-Route::get('/categories/{slug}', [CategoryController::class, 'show']);*/
-
 Route::get('/products/{slug}', [ProductController::class, 'show']);
+
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+
 
 
 /**

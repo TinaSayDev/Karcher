@@ -12,12 +12,11 @@ Route::get('/user', function (Request $request) {
 
 // товары
 Route::get('/products/filter', [ProductController::class, 'filter']);
-Route::get('/search', [ProductController::class, 'search']);
+
 // 1 товар
 Route::get('/products/{slug}', [ProductController::class, 'show']);
-/*
-Route::get('/categories', [CategoryController::class, 'index']);
-Route::get('/categories/{slug}', [CategoryController::class, 'show']);*/
+
+
 Route::get('/categories', [CategoryController::class, 'apiIndex']); // JSON для axios
 Route::get('/categories/{slug}', [CategoryController::class, 'apiShow']); // JSON для axios дочерних категорий
 

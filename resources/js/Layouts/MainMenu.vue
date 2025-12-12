@@ -25,9 +25,9 @@ export default {
             const mainmenu = this.$page.props.mainmenu || {};
             return [
                 { label: mainmenu.catalog || 'Catalog', url: '/categories' },
-                { label: mainmenu.home_garden || 'Home & Garden', url: '/home' },
-                { label: mainmenu.professional || 'Professional', url: '/professional' },
-                { label: mainmenu.purchase_service || 'Service', url: '/service' },
+                { label: mainmenu.home_garden || 'Home & Garden', url: '/categories/home-and-garden' },
+                { label: mainmenu.professional || 'Professional', url: '/categories/professional' },
+                { label: mainmenu.purchase_service || 'Service', url: '/contacts' },
                 { label: mainmenu.about || 'About', url: '/about' },
                 { label: mainmenu.blog || 'Blog', url: '/blog' },
             ];

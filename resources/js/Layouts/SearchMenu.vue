@@ -65,20 +65,11 @@ const searchProducts = async (query) => {
 };
 
 const submit = async () => {
-    const q = query.value.trim();
+
+    const q = query.value.trim().slice(0, 255);
     if (!q) return;
 
-    loading.value = true;
-
-    try {
-        const results = await searchProducts(q);
-        emit('results', results);
-    } catch (err) {
-        console.error(err);
-        emit('results', []);
-    } finally {
-        loading.value = false;
-    }
+    window.location.href = `/search?q=${encodeURIComponent(q)}`;
 };
 
 </script>

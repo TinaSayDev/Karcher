@@ -5,9 +5,9 @@ use App\Http\Controllers\Controller;
 use App\Models\AboutPage;
 use Inertia\Inertia;
 
-class AboutPageController extends Controller
+class PageController extends Controller
 {
-    public function index()
+    public function about()
     {
         $page = AboutPage::with('translations')->first();
         $translation = $page?->translation();
@@ -15,5 +15,10 @@ class AboutPageController extends Controller
         return Inertia::render('AboutPage', [
             'page' => $translation
         ]);
+    }
+
+    public function contacts()
+    {
+        return Inertia::render('Contacts');
     }
 }

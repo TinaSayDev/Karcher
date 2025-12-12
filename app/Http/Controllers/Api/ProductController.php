@@ -55,32 +55,6 @@ class ProductController extends Controller
     }
 
 
-
-
-    // Поиск через поисковое поле
-    public function search(Request $request)
-    {
-        $request->validate([
-            'q' => 'required|string|min:2|max:100',
-        ]);
-
-        $locale = app()->getLocale(); // текущая локаль ru/uz/en
-        $query = $request->q;
-
-        $products = Product::query()
-            ->whereHas('translations', function ($t) use ($query, $locale) {
-                $t->where('locale', $locale)
-                    ->where(function ($sub) use ($query) {
-                        $sub->where('name', 'LIKE', "%{$query}%")
-                            ->orWhere('description', 'LIKE', "%{$query}%");
-                    });
-            })
-            ->limit(20)
-            ->get();
-
-        return ProductResource::collection($products);
-    }
-
     public function show(Request $request, $slug)
     {
         $locale = app()->getLocale();
