@@ -24,61 +24,10 @@
                     <a :href="`/categories/${cat.slug}`" class="btn-1">Подробнее</a>
                 </div>
 
-                <!-- Вставляем твой компонент LeafProducts -->
                 <ProductCarousel v-if="cat.products?.length" :products="cat.products" />
             </div>
         </div>
-        <!-- Листовые категории с продуктами -->
-<!--        <div v-else class="leaf-wrapper container">
-            <div v-for="cat in displayCategories" :key="cat.id" class="leaf-category flex">
-                <div class="leaf-header">
-                    <h2>{{ cat.name }}</h2>
-                    <p v-if="cat.description">{{ cat.description }}</p>
-                    <a :href="`/categories/${cat.slug}`" class="btn-1">Подробнее</a>
-                </div>
 
-                &lt;!&ndash; Карусель продуктов &ndash;&gt;
-                <div class="carousel" v-if="cat.products?.length">
-                    <button
-                        class="nav prev"
-                        v-if="cat.products.length > 3"
-                        @click="cat.currentIndex = Math.max(cat.currentIndex - 1, 0)"
-                    >
-                        ‹
-                    </button>
-
-                    <div class="carousel-window">
-                        <div
-                            class="carousel-track"
-                            :style="{ transform: `translateX(-${cat.currentIndex * 220}px)` }"
-                        >
-                            <div
-                                class="product-card"
-                                v-for="product in cat.products"
-                                :key="product.id"
-                            >
-                                <a :href="`/products/${product.slug}`">
-                                    <img
-                                        :src="getImageUrl(product.image_main, 'products')"
-                                        class="product-img"
-                                    />
-                                    <h4>{{ product.name }}</h4>
-                                    <p class="price">{{ product.price }} €</p>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button
-                        class="nav next"
-                        v-if="cat.products.length > 3"
-                        @click="cat.currentIndex = Math.min(cat.currentIndex + 1, cat.products.length - 3)"
-                    >
-                        ›
-                    </button>
-                </div>
-            </div>
-        </div>-->
     </DefaultLayout>
 </template>
 
@@ -91,6 +40,10 @@ export default {
         locale: String,
         cats: Array,          // категории верхнего уровня
         category: Object,     // текущая категория (если выбран дочерний уровень)
+    },
+
+    mounted() {
+        console.log(this.$props);
     },
 
     components: { DefaultLayout, ProductCarousel },

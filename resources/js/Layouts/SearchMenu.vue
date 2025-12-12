@@ -56,6 +56,7 @@ const searchProducts = async (query) => {
         const res = await axios.get('/api/search', {
             params: { q: query }
         });
+        console.log(res.data.data)
         return res.data.data;
     } catch (e) {
         console.error(e);

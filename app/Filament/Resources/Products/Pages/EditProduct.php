@@ -5,6 +5,8 @@ namespace App\Filament\Resources\Products\Pages;
 use App\Filament\Resources\Products\ProductResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Product;
 
 class EditProduct extends EditRecord
 {
@@ -51,20 +53,18 @@ class EditProduct extends EditRecord
         return $data;
     }
 
-    protected function mutateFormDataBeforeSave(array $data): array
-    {
-        $translations = $data['translations'];
-        unset($data['translations']);
 
-        foreach ($translations as $locale => $fields) {
-            $this->record->translations()->updateOrCreate(
+    protected function afterSave(): void
+    {
+        $record = $this->record;
+
+        foreach ($this->form->getState()['translations'] as $locale => $fields) {
+            $record->translations()->updateOrCreate(
                 ['locale' => $locale],
                 $fields
             );
         }
 
-        return $data;
+        $record->moveFilesToProductFolder();
     }
-
-
 }

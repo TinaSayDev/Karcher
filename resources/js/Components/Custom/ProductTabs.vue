@@ -13,17 +13,9 @@
         </div>
 
         <div class="tabs-content">
-            <div v-if="activeTab === 'description'">
-                <div v-html="tabs.description"></div>
-            </div>
-
-            <div v-if="activeTab === 'specifications'">
-                <div v-html="tabs.specifications"></div>
-            </div>
-
-            <div v-if="activeTab === 'equipment'">
-                <div v-html="tabs.equipment"></div>
-            </div>
+            <div v-if="activeTab === 'description'" v-html="description"></div>
+            <div v-if="activeTab === 'specifications'" v-html="specifications"></div>
+            <div v-if="activeTab === 'equipment'" v-html="equipment"></div>
         </div>
     </div>
 </template>
@@ -33,22 +25,33 @@ export default {
     name: "ProductTabs",
 
     props: {
-        tabs: {
-            type: Object,
-            required: true
+        description: {
+            type: String,
+            default: ''
+        },
+        specifications: {
+            type: String,
+            default: ''
+        },
+        equipment: {
+            type: String,
+            default: ''
         }
     },
 
     data() {
         return {
             activeTab: 'description',
-
             tabList: [
-                { key: 'description', label: 'Description' },
-                { key: 'specifications', label: 'Specifications' },
-                { key: 'equipment', label: 'Equipment' },
+                { key: 'description', label: 'Описание' },
+                { key: 'specifications', label: 'Характеристики' },
+                { key: 'equipment', label: 'Комплектация' },
             ]
         };
+    },
+
+    computed: {
+
     }
 };
 </script>
@@ -70,6 +73,7 @@ export default {
     color: #333;
     padding: 8px 12px;
     border-radius: 6px;
+    transition: background 0.3s, color 0.3s;
 }
 
 .tab-item.active {

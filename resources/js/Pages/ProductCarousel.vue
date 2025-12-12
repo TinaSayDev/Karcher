@@ -12,11 +12,16 @@
                     <a :href="`/products/${product.slug}`">
 
                         <img
-                            :src="product.image_main ? `/images/products/${product.image_main}` : '/images/noimg.png'"
+                            :src="product.image_main ? `/storage/${product.image_main}` : '/images/noimg.png'"
                             class="product-img"
                         />
                         <h4>{{ product.name }}</h4>
-                        <p class="price">{{ product.price }} €</p>
+<!--                        <p class="price">{{ product.price }} €</p>-->
+                        <div class="product-prices">
+                            <p v-if="product.price_new" class="price-new">{{ formatPrice(product.price_new) }} сум</p>
+                            <p v-if="product.price_new" class="price-old">{{ formatPrice(product.price_old) }} сум</p>
+                            <p v-else class="price">{{ formatPrice(product.price_old) }} сум</p>
+                        </div>
                     </a>
                 </div>
             </div>
@@ -31,6 +36,8 @@
 </template>
 
 <script>
+import { formatPrice } from '@/utils/formatPrice.js';
+
 export default {
     props: {
         products: {
@@ -69,7 +76,8 @@ export default {
                 this.visibleCards = 3
                 this.cardWidth = 220
             }
-        }
+        },
+        formatPrice
     },
     mounted() {
         this.updateVisibleCards()
@@ -117,7 +125,16 @@ export default {
     font-weight: bold;
     margin-top: 5px;
 }
+.price-old {
+    text-decoration: line-through;
+    color: red;
+    margin-left: 10px;
+}
 
+.price-new {
+    font-weight: bold;
+    color: #333;
+}
 .arrow {
     position: absolute;
     top: 50%;

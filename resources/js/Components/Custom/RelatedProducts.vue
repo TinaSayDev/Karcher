@@ -25,7 +25,7 @@
                     >
                         <a :href="`/products/${product.slug}`">
                             <img
-                                :src="product.image_main ? `/images/products/${product.image_main}` : '/images/noimg.png'"
+                                :src="product.image_main ? `/storage/${product.image_main}` : '/images/noimg.png'"
                                 class="product-img"
                             />
                         </a>

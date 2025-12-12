@@ -12,12 +12,12 @@ class ProductTranslation extends Model
         'locale',
         'name',
         'slug',
-        'short_description'
+        'short_description',
+        'description',
+        'specifications',
+        'equipment'
     ];
 
-    protected $casts = [
-        'tabs' => 'array',
-    ];
 
 
     public function product(): BelongsTo

@@ -34,9 +34,15 @@
                     <p v-if="product.short_description">
                         <strong>Description:</strong> {{ product.short_description }}
                     </p>
-                    <p><strong>Price:</strong> {{ product.price_new }} €</p>
+                    <p><strong>Price:</strong> {{ formatPrice(product.price_new) }} €</p>
                 </div>
             </div>
+
+            <ProductTabs
+                :description="product.description"
+                :specifications="product.specifications"
+                :equipment="product.equipment" />
+
 
             <!-- Related Products -->
             <RelatedProducts v-if="relatedProducts.length" :products="relatedProducts" />
@@ -47,28 +53,21 @@
 <script>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue'
 import RelatedProducts from "@/Components/Custom/RelatedProducts.vue";
-import axios from 'axios'
+import ProductTabs from "@/Components/Custom/ProductTabs.vue";
+import { formatPrice } from '@/utils/formatPrice.js';
 
 export default {
-    components: { DefaultLayout, RelatedProducts },
+    components: { DefaultLayout, RelatedProducts, ProductTabs },
 
     props: {
-        slug: { type: String, required: true }
+        product: { type: Object, required: true },
+        locale: { type: String, required: true }
     },
 
     data() {
         return {
-            product: {},
-            loading: true,
-            error: null,
-            breadcrumbs: [],
-            mainImage: null,
-            relatedProducts: [],
+            mainImage: this.product.image_main ?? this.product.images?.[0],
         }
-    },
-
-    watch: {
-        slug: { handler: 'loadProduct', immediate: true }
     },
 
     computed: {
@@ -76,7 +75,22 @@ export default {
             const imgs = []
             if (this.product.image_main) imgs.push(this.product.image_main)
             if (this.product.images?.length) imgs.push(...this.product.images)
-            return imgs.slice(0, 5) // максимум 5 изображений
+            return imgs.slice(0, 5)
+        },
+
+        relatedProducts() {
+            return this.product.category?.products?.filter(
+                p => p.id !== this.product.id
+            ) ?? []
+        },
+
+        breadcrumbs() {
+            return [
+                { label: 'Главная', href: '/' },
+                { label: 'Каталог', href: '/categories' },
+                { label: this.product.category?.name, href: `/categories/${this.product.category?.slug}` },
+                { label: this.product.name }
+            ]
         }
     },
 
@@ -86,43 +100,11 @@ export default {
                 ? `/storage/${filename}`
                 : `/storage/products/${filename}`
         },
-
-        async loadProduct() {
-            this.loading = true
-            this.error = null
-
-            try {
-                const locale = document.cookie.match(/locale=([^;]+)/)?.[1] || 'ru'
-                const headers = { 'X-Locale': locale }
-
-                const res = await axios.get(`/api/products/${this.slug}`, { headers })
-                this.product = res.data.data
-                this.mainImage = this.product.image_main ?? this.product.images?.[0]
-
-                // Breadcrumbs
-                this.breadcrumbs = [
-                    { label: 'Главная', href: '/' },
-                    { label: 'Каталог', href: '/categories' },
-                    { label: this.product.category?.name, href: `/categories/${this.product.category?.slug}` },
-                    { label: this.product.name }
-                ]
-
-                // Related products из той же категории (не включая текущий продукт)
-                if (this.product.category?.products) {
-                    this.relatedProducts = this.product.category.products
-                        .filter(p => p.id !== this.product.id)
-                }
-
-            } catch (e) {
-                console.error(e)
-                this.error = 'Ошибка загрузки'
-            }
-
-            this.loading = false
-        }
+        formatPrice,
     }
 }
 </script>
+
 
 <style scoped>
 .product-detail-flex {

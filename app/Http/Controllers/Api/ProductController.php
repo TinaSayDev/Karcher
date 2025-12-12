@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use App\Http\Resources\ProductResource;
 use App\Models\ProductTranslation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class ProductController extends Controller
 {
@@ -80,18 +83,52 @@ class ProductController extends Controller
 
     public function show(Request $request, $slug)
     {
-        $locale = $request->header('X-Locale') ?? app()->getLocale();
+        $locale = app()->getLocale();
 
-        // Ищем перевод продукта для текущей локали или fallback на ru
-        $translation = ProductTranslation::where('slug', $slug)
-            ->whereIn('locale', [$locale, 'ru'])
+        $product = \App\Models\Product::whereHas('translations', fn($q) =>
+        $q->where('slug', $slug)
+        )
+            ->with([
+                'translations',
+                'category.translations',
+                'category.products.translations',
+            ])
             ->firstOrFail();
 
-        // Получаем сам продукт с категорией и переводами
-        $product = Product::with(['translations', 'category.translations', 'category.products.translations'])
-            ->findOrFail($translation->product_id);
+        return Inertia::render('ProductDetail', [
+            'locale' => $locale,
+            'product' => [
+                'id' => $product->id,
+                'code' => $product->code,
+                'price_old' => $product->price_old,
+                'price_new' => $product->price_new,
+                'image_main' => $product->image_main,
+                'images' => $product->images ?? [],
 
-        return new ProductResource($product, $locale);
+                // переводы продукта
+                'name' => $product->translation($locale)->name ?? '',
+                'slug' => $product->translation($locale)->slug ?? '',
+                'short_description' => $product->translation($locale)->short_description ?? '',
+                'description' => $product->translation($locale)->description ?? '',
+                'specifications' => $product->translation($locale)->specifications ?? '',
+                'equipment' => $product->translation($locale)->equipment ?? '',
+
+                // категория и связанные товары
+                'category' => [
+                    'id' => $product->category->id,
+                    'slug' => $product->category->translation($locale)->slug ?? '',
+                    'name' => $product->category->translation($locale)->name ?? '',
+                    'products' => $product->category->products->map(fn($p) => [
+                        'id' => $p->id,
+                        'slug' => $p->translation($locale)->slug ?? '',
+                        'name' => $p->translation($locale)->name ?? '',
+                        'price_new' => $p->price_new,
+                        'image_main' => $p->image_main,
+                    ])
+                ],
+            ]
+        ]);
     }
+
 
 }

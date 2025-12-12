@@ -33,11 +33,9 @@ class ProductResource extends JsonResource
             'name' => $t->name ?? '',
             'slug' => $t->slug ?? '',
             'short_description' => $t->short_description ?? '',
-            'tabs' => $t->tabs ?? [
-                    'description' => '',
-                    'specifications' => '',
-                    'equipment' => ''
-                ],
+            'description'=>$t->description ?? '',
+            'specifications'=>$t->specifications ?? '',
+            'equipment'=>$t->equipment ?? '',
 
             'category' => $this->category ? [
                 'id' => $this->category->id,
