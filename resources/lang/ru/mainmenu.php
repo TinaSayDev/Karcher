@@ -1,5 +1,6 @@
 <?php
 return [
+    'home'=>'ГЛАВНАЯ',
     'catalog' => 'КАТАЛОГ',
     'home_garden' => 'ДЛЯ ДОМА И САДА',
     'professional' => 'ПРОФЕССИОНАЛЬНАЯ ТЕХНИКА',

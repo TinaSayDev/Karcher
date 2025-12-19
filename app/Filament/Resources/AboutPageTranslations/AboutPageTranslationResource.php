@@ -59,4 +59,9 @@ class AboutPageTranslationResource extends Resource
     {
         return 'О нас';
     }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 1; // порядок внутри группы
+    }
 }

@@ -51,10 +51,17 @@ p{
 }
 
 .products-grid {
-    max-width: 1348px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+     max-width: 1188px;
+     margin: 0 auto;
+     display: grid;
+     grid-template-columns: repeat(4, 1fr);
+ }
+
+.products-grid li {
+    padding: 30px;
+}
+img.cat-img {
+    height: 240px;
 }
 .catalog-nav h3{
     color:#333333;
@@ -129,10 +136,17 @@ a:hover .line {
     .catalog-nav{
         flex-direction: column;
         align-items: flex-start;
+        padding-left: 25px;
     }
 
     ul.right{
         flex-direction: column;
         align-items: flex-start;
+        margin-top: 35px;
+        gap: 10px;
+    }
+
+    ul.right li:last-child a{
+        margin-left: 0;
     }
 }

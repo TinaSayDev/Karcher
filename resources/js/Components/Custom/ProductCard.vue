@@ -7,7 +7,7 @@
                 v-for="(src, i) in images"
                 :key="i"
                 class="image-slide"
-                :src="`/storage/products/${src}`"
+                :src="`/storage/${src}`"
                 :class="{ active: i === index }"
                 loading="lazy"
                 draggable="false"
@@ -38,12 +38,7 @@
         <Stars/>
         <div class="title">{{ product.name }}</div>
 
-        <div class="stock">
-            <div class="dot"></div>
-            <div class="text">В наличии</div>
-        </div>
-
-        <div class="price">{{ formatPrice(product.price) }} сум/шт</div>
+        <div class="price">{{ formatPrice(product.price_new) }} сум/шт</div>
 
         <div class="details">
             <div class="details-btn">Подробнее</div>
@@ -74,7 +69,18 @@ export default {
 
     computed: {
         images() {
-            return this.product.images ?? [];
+            // если есть массив images — используем его
+            if (Array.isArray(this.product.images) && this.product.images.length) {
+                return this.product.images;
+            }
+
+            // иначе, если есть image_main — возвращаем как массив из одного элемента
+            if (this.product.image_main) {
+                return [this.product.image_main];
+            }
+
+            // вообще ничего нет
+            return [];
         },
 
         badges() {

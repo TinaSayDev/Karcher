@@ -3,12 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use App\Models\CategoryTranslation;
-use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class CategoryController extends Controller
@@ -32,6 +28,7 @@ class CategoryController extends Controller
                 'slug' => $cat->translation()?->slug,
                 'image' => $cat->image,
                 'name' => $cat->translation()?->name ?? '',
+                'description' => $cat->translation()?->description ?? '',
                 'children' => $cat->children->map(fn($child) => [
                     'id' => $child->id,
                     'slug' => $child->translation()?->slug,
@@ -49,11 +46,12 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
         $locale = app()->getLocale();
 
-        $category = Category::whereHas('translations', fn($q) => $q->where('slug', $slug))
+        $category = Category::whereHas('translations', fn ($q) =>
+        $q->where('slug', $slug))
             ->with([
                 'translations',
                 'children.translations',
@@ -67,12 +65,14 @@ class CategoryController extends Controller
                 'id' => $category->id,
                 'slug' => $category->translation()?->slug,
                 'name' => $category->translation()?->name ?? '',
-                'children' => $category->children->map(fn($child) => [
+                'forceGrid' => request()->boolean('grid'),
+
+                'children' => $category->children->map(fn ($child) => [
                     'id' => $child->id,
                     'slug' => $child->translation()?->slug,
                     'image' => $child->image,
                     'name' => $child->translation()?->name ?? '',
-                    'products' => $child->products->map(fn($product) => [
+                    'products' => $child->products->map(fn ($product) => [
                         'id' => $product->id,
                         'slug' => $product->translation()?->slug,
                         'name' => $product->translation()?->name ?? '',
@@ -81,8 +81,20 @@ class CategoryController extends Controller
                         'image_main' => $product->image_main,
                     ]),
                 ]),
+
+                // 👇 товары самой категории
+                'products' => $category->products->map(fn ($product) => [
+                    'id' => $product->id,
+                    'slug' => $product->translation()?->slug,
+                    'name' => $product->translation()?->name ?? '',
+                    'price_new' => $product->price_new,
+                    'price_old' => $product->price_old,
+                    'image_main' => $product->image_main,
+                ]),
             ],
         ]);
+
     }
+
 
 }

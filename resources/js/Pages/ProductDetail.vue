@@ -29,7 +29,7 @@
                     <h1>{{ product.name }}</h1>
                     <p><strong>Code:</strong> {{ product.code }}</p>
                     <p><strong>Category:</strong>
-                        <a :href="`/categories/${product.category?.slug}`">{{ product.category?.name }}</a>
+                        <a :href="`/categories/${product.category?.slug}?grid=1`">{{ product.category?.name }}</a>
                     </p>
                     <p v-if="product.short_description">
                         <strong>Description:</strong> {{ product.short_description }}

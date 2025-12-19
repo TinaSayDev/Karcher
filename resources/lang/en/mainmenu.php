@@ -1,5 +1,6 @@
 <?php
 return [
+    'home'=>'HOME',
     'catalog' => 'CATALOG',
     'home_garden' => 'HOME & GARDEN',
     'professional' => 'PROFESSIONAL EQUIPMENT',

@@ -38,6 +38,8 @@ class CategoriesTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->submitActionLabel('Сохранить');
+
     }
 }

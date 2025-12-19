@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         Inertia::share([
             'mainmenu' => function () {
                 return [
+                    'home'=>__('mainmenu.home'),
                     'catalog' => __('mainmenu.catalog'),
                     'home_garden' => __('mainmenu.home_garden'),
                     'professional' => __('mainmenu.professional'),

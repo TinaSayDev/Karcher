@@ -1,5 +1,5 @@
 <template>
-    <nav v-if="items.length" class="text-sm text-gray-500 mb-6">
+    <nav v-if="items.length" class="text-sm text-gray-500 mb-6 container">
         <ol class="flex flex-wrap gap-1">
             <li
                 v-for="(item, index) in items"
@@ -39,3 +39,9 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+    nav{
+        padding: 20px 0 50px 0;
+    }
+</style>

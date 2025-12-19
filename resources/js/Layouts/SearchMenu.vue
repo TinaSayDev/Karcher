@@ -1,6 +1,6 @@
 <template>
-    <div class="search-wrapper">
-        <!-- Лупа в меню (исчезает, когда open = true) -->
+    <div class="search-wrapper" @focusout="handleBlur" tabindex="0">
+        <!-- Лупа в меню -->
         <div v-if="!open" class="search-icon" @click="toggle">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                 <circle cx="11" cy="11" r="8" stroke="black" stroke-width="2" fill="none"/>
@@ -12,6 +12,7 @@
         <transition name="fade">
             <div v-if="open" class="search-box">
                 <input
+                    ref="input"
                     type="text"
                     v-model="query"
                     class="search-input"
@@ -19,8 +20,11 @@
                     @keydown.enter="submit"
                 >
 
-                <!-- Лупа внутри поля (кнопка поиска) -->
-                <button class="search-btn" @click="submit">
+                <button
+                    class="search-btn"
+                    @mousedown.prevent
+                    @click="submit"
+                >
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                         <circle cx="11" cy="11" r="8" stroke="black" stroke-width="2" fill="none"/>
                         <line x1="16" y1="16" x2="22" y2="22" stroke="black" stroke-width="2"/>
@@ -30,6 +34,7 @@
         </transition>
     </div>
 </template>
+
 
 <script setup>
 import { ref } from 'vue';
@@ -71,6 +76,13 @@ const submit = async () => {
 
     window.location.href = `/search?q=${encodeURIComponent(q)}`;
 };
+
+const handleBlur = (e) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+        open.value = false;
+    }
+};
+
 
 </script>
 

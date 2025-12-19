@@ -1,5 +1,6 @@
 <?php
 return [
+    'home'=>'BOSH',
     'catalog' => 'KATALOG',
     'home_garden' => 'UY VA BOGʻ UCHUN',
     'professional' => 'PROFESSIONAL TEXNIKA',

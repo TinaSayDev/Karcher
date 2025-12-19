@@ -1,13 +1,14 @@
 <template>
     <div class="carousel-wrapper">
         <div class="carousel-track">
+            <a href="/categories">
             <div
                 v-for="(slide, i) in slides"
                 :key="i"
                 class="slide"
                 :class="{ active: index === i }"
                 :style="{ backgroundImage: `url(${slide})` }"
-            ></div>
+            ></div></a>
         </div>
 
         <div class="dots">

@@ -114,6 +114,12 @@ const items = [
 @media (max-width: 900px) {
     .wtb-section {
         grid-template-columns: 1fr;
+        padding: 0;
+        margin-bottom: 0;
+    }
+
+    .wtb-text{
+        margin: 15px;
     }
 }
 </style>

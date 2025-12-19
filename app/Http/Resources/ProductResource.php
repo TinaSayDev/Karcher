@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class ProductResource extends JsonResource
 {
     protected $locale;
+    protected static ?string $recordTitleAttribute = null;
 
     public function __construct($resource, $locale = null)
     {

@@ -16,4 +16,19 @@ class ListCategories extends ListRecords
             CreateAction::make(),
         ];
     }
+
+    public function getTitle(): string
+    {
+        return 'Список категорий';
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Категории';
+    }
+
+    public static function getCreateButtonLabel(): string
+    {
+        return 'Добавить категорию';
+    }
 }

@@ -1,26 +1,38 @@
 <template>
-    <div class="leaf-products">
+    <div class="carousel">
         <button
             class="arrow left"
             @click="prev"
             :disabled="currentIndex === 0"
         >‹</button>
 
-        <div class="products-wrapper">
-            <div class="products-row" :style="{ transform: `translateX(-${currentIndex * cardWidth}px)` }">
-                <div class="product-card" v-for="product in products" :key="product.id">
+        <div class="viewport">
+            <div
+                class="row"
+                :style="{ transform: `translateX(-${currentIndex * (cardWidth + gap)}px)` }"
+            >
+                <div
+                    class="product-card"
+                    v-for="product in products"
+                    :key="product.id"
+                >
                     <a :href="`/products/${product.slug}`">
-
                         <img
                             :src="product.image_main ? `/storage/${product.image_main}` : '/images/noimg.png'"
                             class="product-img"
                         />
-                        <h4>{{ product.name }}</h4>
-<!--                        <p class="price">{{ product.price }} €</p>-->
+                        <h4 class="title">{{ product.name }}</h4>
+
                         <div class="product-prices">
-                            <p v-if="product.price_new" class="price-new">{{ formatPrice(product.price_new) }} сум</p>
-                            <p v-if="product.price_new" class="price-old">{{ formatPrice(product.price_old) }} сум</p>
-                            <p v-else class="price">{{ formatPrice(product.price_old) }} сум</p>
+                            <p v-if="product.price_new" class="price-new">
+                                {{ formatPrice(product.price_new) }} сум
+                            </p>
+                            <p v-if="product.price_new" class="price-old">
+                                {{ formatPrice(product.price_old) }} сум
+                            </p>
+                            <p v-else class="price">
+                                {{ formatPrice(product.price_old) }} сум
+                            </p>
                         </div>
                     </a>
                 </div>
@@ -35,26 +47,25 @@
     </div>
 </template>
 
+
 <script>
-import { formatPrice } from '@/utils/formatPrice.js';
+import { formatPrice } from '@/utils/formatPrice.js'
 
 export default {
     props: {
-        products: {
-            type: Array,
-            default: () => []
-        }
+        products: Array
     },
     data() {
         return {
             currentIndex: 0,
             cardWidth: 220,
-            visibleCards: 3
+            gap: 20,
+            visible: 3
         }
     },
     computed: {
         maxIndex() {
-            return Math.max(0, this.products.length - this.visibleCards)
+            return Math.max(0, this.products.length - this.visible)
         }
     },
     methods: {
@@ -64,32 +75,76 @@ export default {
         next() {
             if (this.currentIndex < this.maxIndex) this.currentIndex++
         },
-        updateVisibleCards() {
-            const width = window.innerWidth
-            if (width < 600) {
-                this.visibleCards = 1
-                this.cardWidth = 180
-            } else if (width < 900) {
-                this.visibleCards = 2
-                this.cardWidth = 200
-            } else {
-                this.visibleCards = 3
-                this.cardWidth = 220
-            }
-        },
         formatPrice
-    },
-    mounted() {
-        this.updateVisibleCards()
-        window.addEventListener('resize', this.updateVisibleCards)
-    },
-    beforeUnmount() {
-        window.removeEventListener('resize', this.updateVisibleCards)
     }
 }
 </script>
 
+
 <style scoped>
+.carousel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 90px;
+    padding-right: 90px;
+}
+
+/* Окно — строго на 3 карточки */
+.viewport {
+    overflow: hidden;
+    width: calc(3 * 200px + 2 * 20px);
+}
+
+/* Лента */
+.row {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.3s ease;
+}
+
+/* Карточка */
+.product-card {
+    width: 220px;
+    flex-shrink: 0;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.product-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+/* Стрелки — ВНЕ контента */
+.arrow {
+    background: #fff;
+    border: 1px solid #ddd;
+    font-size: 24px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrow.left {
+    margin-right: 10px;
+}
+
+.arrow.right {
+    margin-left: 10px;
+}
+
+.arrow:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
 .leaf-products {
     flex: 1;
     position: relative;

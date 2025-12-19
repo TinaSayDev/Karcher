@@ -8,7 +8,14 @@
                 :class="{ active: activeIndex === index }"
                 @click="setActive(index)"
             >
-                <a href="#" @click.prevent>{{ item.label }}</a>
+                <a v-if="!item.link" href="#" @click.prevent>{{ item.label }}</a>
+                <!-- Ссылка на каталог -->
+                <a
+                    v-else
+                    :href="item.link"
+                >
+                    {{ item.label }}
+                </a>
             </li>
         </ul>
     </nav>
@@ -36,7 +43,7 @@ const items = [
     { key: 'recommended', label: 'СОВЕТУЕМ' },
     { key: 'new', label: 'НОВИНКА' },
     { key: 'sale', label: 'УЦЕНКА' },
-    { key: 'all', label: 'ВЕСЬ КАТАЛОГ' },
+    { key: 'catalog', label: 'ВЕСЬ КАТАЛОГ',link: '/categories' },
 ];
 
 const activeIndex = ref(0);

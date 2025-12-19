@@ -107,4 +107,24 @@ class PostResource extends Resource
             'edit' => EditPost::route('/{record}/edit'),
         ];
     }
+
+    public static function getModelLabel(): string
+    {
+        return 'Публикации';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Публикации';
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Публикации';
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 2; // порядок внутри группы
+    }
 }

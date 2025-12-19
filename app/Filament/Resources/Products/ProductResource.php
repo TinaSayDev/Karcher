@@ -34,7 +34,10 @@ class ProductResource extends Resource
                 Select::make('category_id')
                     ->label('Категория')
                     ->relationship('category', 'id')
-                    ->getOptionLabelFromRecordUsing(fn($record) => $record->name_ru)
+                    ->getOptionLabelFromRecordUsing(fn ($record) =>
+                    optional(
+                        $record->translations->where('locale', 'ru')->first()
+                    )?->name)
                     ->searchable()
                     ->preload()
                     ->required(),
@@ -124,12 +127,19 @@ class ProductResource extends Resource
                     optional($record->category?->translations->where('locale', 'ru')->first())?->name
                     ),
 
-                Tables\Columns\TextColumn::make('name_ru')
+                Tables\Columns\TextColumn::make('translation_ru_name')
                     ->label('Название (RU)')
-                    ->getStateUsing(fn($record) =>
-                    optional($record->translations->where('locale', 'ru')->first())?->name
+                    ->getStateUsing(fn ($record) =>
+                    optional(
+                        $record->translations->where('locale', 'ru')->first()
+                    )?->name
                     )
-                    ->searchable()
+                    ->searchable(query: function ($query, string $search) {
+                        $query->whereHas('translations', function ($q) use ($search) {
+                            $q->where('locale', 'ru')
+                                ->where('name', 'like', "%{$search}%");
+                        });
+                    })
                     ->sortable(),
 
                 Tables\Columns\ImageColumn::make('image_main')->label('Фото'),
@@ -146,5 +156,25 @@ class ProductResource extends Resource
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
+    }
+
+    public static function getModelLabel(): string
+    {
+        return 'Товары';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Товары';
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Товары';
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 4; // порядок внутри группы
     }
 }

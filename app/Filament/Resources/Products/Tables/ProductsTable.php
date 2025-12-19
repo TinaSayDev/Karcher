@@ -5,10 +5,9 @@ namespace App\Filament\Resources\Products\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductsTable
 {
@@ -16,6 +15,7 @@ class ProductsTable
     {
         return $table
             ->columns([
+
                 TextColumn::make('translations.name')
                     ->label('Название (RU)')
                     ->getStateUsing(function ($record) {
@@ -25,8 +25,14 @@ class ProductsTable
                                 ->first()
                         )->name;
                     })
-                    ->sortable()
-                    ->searchable(),
+                    ->searchable(query: function (Builder $query, string $search) {
+                        $query->whereHas('translations', function ($q) use ($search) {
+                            $q->where('locale', 'ru')
+                                ->where('name', 'like', "%{$search}%");
+                        });
+                    })
+                    ->sortable(),
+
                 TextColumn::make('category')
                     ->label('Категория')
                     ->getStateUsing(function ($record) {
@@ -36,12 +42,14 @@ class ProductsTable
                                 ->first()
                         )->name;
                     })
-                    ->sortable()
-                    ->searchable(),
+                    ->searchable(query: function (Builder $query, string $search) {
+                        $query->whereHas('category.translations', function ($q) use ($search) {
+                            $q->where('locale', 'ru')
+                                ->where('name', 'like', "%{$search}%");
+                        });
+                    })
+                    ->sortable(),
 
-            ])
-            ->filters([
-                //
             ])
             ->recordActions([
                 EditAction::make(),
