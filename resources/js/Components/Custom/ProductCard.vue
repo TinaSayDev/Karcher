@@ -41,7 +41,7 @@
         <div class="price">{{ formatPrice(product.price_new) }} сум/шт</div>
 
         <div class="details">
-            <div class="details-btn">Подробнее</div>
+            <div class="details-btn">{{$page.props.catalog_menu.more}}: </div>
         </div>
     </div>
 </template>

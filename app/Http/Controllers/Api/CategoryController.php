@@ -66,12 +66,13 @@ class CategoryController extends Controller
                 'slug' => $category->translation()?->slug,
                 'name' => $category->translation()?->name ?? '',
                 'forceGrid' => request()->boolean('grid'),
-
+                'description' => $category->translation()?->description ?? '',
                 'children' => $category->children->map(fn ($child) => [
                     'id' => $child->id,
                     'slug' => $child->translation()?->slug,
                     'image' => $child->image,
                     'name' => $child->translation()?->name ?? '',
+                    'description' => $child->translation()?->description ?? '',
                     'products' => $child->products->map(fn ($product) => [
                         'id' => $product->id,
                         'slug' => $product->translation()?->slug,

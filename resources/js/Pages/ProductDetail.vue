@@ -27,14 +27,14 @@
                 <!-- Справа: Текстовая информация -->
                 <div class="product-info">
                     <h1>{{ product.name }}</h1>
-                    <p><strong>Code:</strong> {{ product.code }}</p>
-                    <p><strong>Category:</strong>
+                    <p><strong>{{$page.props.catalog_menu.code}}: </strong> {{ product.code }}</p>
+                    <p><strong>{{$page.props.catalog_menu.category}}: </strong>
                         <a :href="`/categories/${product.category?.slug}?grid=1`">{{ product.category?.name }}</a>
                     </p>
                     <p v-if="product.short_description">
-                        <strong>Description:</strong> {{ product.short_description }}
+                        <strong>{{$page.props.catalog_menu.description}}: </strong> {{ product.short_description }}
                     </p>
-                    <p><strong>Price:</strong> {{ formatPrice(product.price_new) }} €</p>
+                    <p><strong>{{$page.props.catalog_menu.price}}: </strong> {{ formatPrice(product.price_new) }} €</p>
                 </div>
             </div>
 
@@ -86,8 +86,8 @@ export default {
 
         breadcrumbs() {
             return [
-                { label: 'Главная', href: '/' },
-                { label: 'Каталог', href: '/categories' },
+                { label: this.$page.props.mainmenu.home, href: '/' },
+                { label: this.$page.props.mainmenu.catalog, href: '/categories' },
                 { label: this.product.category?.name, href: `/categories/${this.product.category?.slug}` },
                 { label: this.product.name }
             ]

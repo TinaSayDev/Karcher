@@ -43,6 +43,13 @@ class AppServiceProvider extends ServiceProvider
                     'new' => __('product.new'),
                     'recommended' => __('product.recommended'),
                     'sale' => __('product.sale'),
+                    'code'=>__('product.code'),
+                    'category'=>__('product.category'),
+                    'description'=>__('product.description'),
+                    'price'=>__('product.price'),
+                    'related'=>__('product.related'),
+                    'more'=>__('product.more'),
+                    'back'=>__('product.back'),
                 ];
 
             }

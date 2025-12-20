@@ -27,15 +27,14 @@
                 <div class="leaf-header">
                     <h2>{{ cat.name }}</h2>
                     <p v-if="cat.description">{{ cat.description }}</p>
-                    <p>The RoboCleaner robot vacuum cleaner from Kercher is capable of cleaning any floor coverings common in everyday life, even in your absence.</p>
-                    <a :href="`/categories/${cat.slug}?grid=1`" class="btn-1">Подробнее</a>
+                    <a :href="`/categories/${cat.slug}?grid=1`" class="btn-1">{{$page.props.catalog_menu.more}}</a>
                 </div>
 
                 <ProductCarousel v-if="cat.products?.length" :products="cat.products" />
             </div>
         </div>
 
-        <div class="home-link products-grid container"><a href="/">Back to home</a></div>
+        <div class="home-link products-grid container"><a href="/">{{$page.props.catalog_menu.back}}</a></div>
 
     </DefaultLayout>
 </template>
@@ -53,9 +52,6 @@ export default {
     },
 
     components: { DefaultLayout, ProductCarousel,CategoryGrid },
-    mounted() {
-       console.log(this.$page.props)
-    },
 
     computed: {
         pageTitle() {
@@ -128,9 +124,10 @@ export default {
     width: 156px;
     border-radius: 16px;
     margin-top: 32px;
+    justify-content: center;
 }
 .leaf-category{
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 @media (max-width: 900px) {

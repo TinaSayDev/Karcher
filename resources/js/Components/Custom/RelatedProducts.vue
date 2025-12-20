@@ -1,6 +1,6 @@
 <template>
     <div class="related-products">
-        <h3>Related Products</h3>
+        <h3>{{$page.props.catalog_menu.related}}: </h3>
 
         <div class="carousel">
             <!-- Левая стрелка -->

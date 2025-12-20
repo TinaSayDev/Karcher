@@ -62,4 +62,41 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+use Illuminate\Support\Facades\File;
+
+Route::get('/download-products-images', function () {
+
+    $products = [
+        23 => '//karcher.uz/cdn/shop/files/K_2_Universal_Edition_Car.jpg?v=1718109094',
+        24 => '//karcher.uz/cdn/shop/files/K_2_Premium_Car.jpg?v=1718108756',
+        25 => '//karcher.uz/cdn/shop/files/d0_a0d51a8e-fa69-42bb-be95-d83b5286084c.jpg?v=1749561991',
+        26 => '//karcher.uz/cdn/shop/files/d0-19.jpg?v=1717418991',
+        27 => '//karcher.uz/cdn/shop/files/1673400_std_1_96-dpi-jpg.jpg?v=1717416084',
+    ];
+
+    foreach ($products as $id => $url) {
+
+        $url = 'https:' . $url;
+
+        $dir = storage_path("products/{$id}");
+
+        if (!File::exists($dir)) {
+            File::makeDirectory($dir, 0777, true);
+        }
+
+        $filename = basename(parse_url($url, PHP_URL_PATH));
+        $filePath = $dir . '/' . $filename;
+
+        if (File::exists($filePath)) {
+            continue;
+        }
+
+        File::put($filePath, file_get_contents($url));
+    }
+
+    return 'Картинки скачаны по ID 23–27';
+});
+
+
 require __DIR__.'/auth.php';

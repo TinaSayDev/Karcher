@@ -46,6 +46,10 @@ export default {
 
 <style scoped>
 
+.blog-section{
+    margin-top: 40px;
+}
+
 .posts-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

@@ -22,5 +22,9 @@ export default {
 </script>
 
 <style scoped>
-/* если нужно, добавь свои стили */
+
+.container{
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
 </style>
