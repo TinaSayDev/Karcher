@@ -26,8 +26,9 @@ class ProductResource extends Resource
     {
         return $schema->schema([
             Section::make('Основные данные')
+                ->columnSpanFull()
                 ->schema([
-                Forms\Components\TextInput::make('code')->label('Код'),
+                Forms\Components\TextInput::make('code')->label('Артикуль'),
                 Forms\Components\TextInput::make('price_new')->label('Цена'),
                 Forms\Components\TextInput::make('price_old')->label('Старая цена'),
 
@@ -61,6 +62,7 @@ class ProductResource extends Resource
             ]),
 
             Section::make('Переводы')
+                ->columnSpanFull()
                 ->schema([
                 Tabs::make('Translations')->tabs([
 
@@ -86,6 +88,7 @@ class ProductResource extends Resource
                     Tab::make('UZ')->schema([
                         Forms\Components\TextInput::make('translations.uz.name')
                             ->label('Название')
+                            ->required()
                             ->afterStateUpdated(fn($state, $set) =>
                             $set('translations.uz.slug', str($state)->slug())
                             ),
@@ -101,6 +104,7 @@ class ProductResource extends Resource
                     Tab::make('EN')->schema([
                         Forms\Components\TextInput::make('translations.en.name')
                             ->label('Название')
+                            ->required()
                             ->afterStateUpdated(fn($state, $set) =>
                             $set('translations.en.slug', str($state)->slug())
                             ),

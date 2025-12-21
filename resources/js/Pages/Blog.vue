@@ -1,5 +1,5 @@
 <template>
-    <DefaultLayout :title="page?.title || 'Блог'" >
+    <DefaultLayout title="Блог" >
         <section class="blog-section container">
             <div class="posts-grid">
                 <a
