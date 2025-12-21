@@ -1,5 +1,5 @@
 <template>
-    <DefaultLayout title="Контакты" :breadcrumbs="breadcrumbs">
+    <DefaultLayout title="Контакты">
         <div class="contacts-wrapper container">
             <!-- Левая часть: вкладки с адресами -->
             <div class="contacts-left">
