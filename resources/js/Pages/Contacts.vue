@@ -14,12 +14,13 @@
                     </div>
                 </div>
 
-                <div class="tab-content">
-                    <p><strong>Address:</strong> {{ tabData.address }}</p>
-                    <p><strong>Telephone:</strong> {{ tabData.phone }}</p>
+                <div class="tab-content" v-if="tabData">
+                    <p><strong>Адрес:</strong> {{ tabData.address }}</p>
+                    <p><strong>Телефон:</strong> {{ tabData.phone }}</p>
                     <p><strong>Email:</strong> {{ tabData.email }}</p>
-                    <p><strong>Work schedule:</strong> {{ tabData.schedule }}</p>
+                    <p><strong>График:</strong> {{ tabData.schedule }}</p>
                 </div>
+
             </div>
             <!-- Карта -->
             <div class="map-container">
@@ -59,59 +60,58 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import axios from 'axios';
+import { ref, computed } from 'vue'
+import axios from 'axios'
 import DefaultLayout from '@/Layouts/DefaultLayout.vue'
 
-const activeTab = ref('tashkent');
-
-const tabList = [
-    { key: 'tashkent', label: 'Tashkent' },
-    { key: 'samarkand', label: 'Samarkand' },
-];
-
-const tabsData = {
-    tashkent: {
-        address: '74 Mukimiy St. Landmark "Dudek,Bek,Sim-Sim".',
-        phone: '+998 97 455 71 54',
-        email: 'info@karchermarket.uz',
-        schedule: 'from 08:00 to 20:00 seven days a week'
-    },
-    samarkand: {
-        address: '74 Mukimiy St. Landmark "Dudek,Bek,Sim-Sim".',
-        phone: '+998 97 455 71 54',
-        email: 'info@karchermarket.uz',
-        schedule: 'from 08:00 to 20:00 seven days a week'
+const props = defineProps({
+    contacts: {
+        type: Array,
+        required: true,
     }
-};
+})
 
-const tabData = computed(() => tabsData[activeTab.value]);
+const activeTab = ref(props.contacts[0]?.key ?? null)
 
-// Форма обратной связи
+const tabList = computed(() =>
+    props.contacts.map(c => ({
+        key: c.key,
+        label: c.label,
+    }))
+)
+
+const tabData = computed(() =>
+    props.contacts.find(c => c.key === activeTab.value)
+)
+
+// Форма
 const form = ref({
     name: '',
     phone: '',
     email: '',
     message: ''
-});
-const loading = ref(false);
-const success = ref(false);
+})
+
+const loading = ref(false)
+const success = ref(false)
 
 const submit = async () => {
-    loading.value = true;
-    success.value = false;
+    loading.value = true
+    success.value = false
+
     try {
-        await axios.post('/contacts/send', form.value);
-        success.value = true;
-        form.value = { name: '', phone: '', email: '', message: '' };
+        await axios.post('/contacts/send', form.value)
+        success.value = true
+        form.value = { name: '', phone: '', email: '', message: '' }
     } catch (e) {
-        console.error(e);
-        alert('Error sending message');
+        console.error(e)
+        alert('Error sending message')
     } finally {
-        loading.value = false;
+        loading.value = false
     }
-};
+}
 </script>
+
 
 <style scoped>
 .contacts-wrapper {
