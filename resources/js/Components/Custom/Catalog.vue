@@ -1,124 +1,187 @@
 <template>
-    <nav class="catalog-nav">
+    <section>
+        <!-- Фильтры -->
+        <nav class="catalog-nav">
         <h3>Лучшие предложения</h3>
-        <ul class="right">
-            <li
-                v-for="(item, index) in items"
+        <div class="filters">
+            <button
+                v-for="item in items"
                 :key="item.key"
-                :class="{ active: activeIndex === index }"
-                @click="setActive(index)"
+                :class="{ active: currentFilter === item.key }"
+                @click="loadProducts(item.key, true)"
             >
-                <a v-if="!item.link" href="#" @click.prevent>{{ item.label }}</a>
-                <!-- Ссылка на каталог -->
-                <a
-                    v-else
-                    :href="item.link"
-                >
-                    {{ item.label }}
-                </a>
-            </li>
-        </ul>
-    </nav>
+                {{ item.label }}
+            </button>
+        </div>
+        </nav>
+        <!-- Продукты -->
+        <div class="products-grid">
+            <ProductCard
+                v-for="product in products"
+                :key="product.id"
+                :product="product"
+            />
+        </div>
 
-    <div v-if="loading">Загрузка...</div>
-    <div v-else-if="error">{{ error }}</div>
-    <div v-else class="products-grid">
-        <ProductCard
-            v-for="product in products"
-            :key="product.id"
-            :product="product"
-            :activeFilter="items[activeIndex].key"
-            @open="openProduct"
-        />
-    </div>
+        <!-- Ошибка -->
+        <div v-if="error" class="error">
+            {{ error }}
+        </div>
+
+        <!-- Загрузка -->
+        <div v-if="loading" class="loading">
+            Загрузка...
+        </div>
+
+        <!-- Кнопка загрузки -->
+        <button
+            v-if="hasMore && !loading"
+            class="load-more"
+            @click="loadProducts(currentFilter)"
+        >
+            Загрузить ещё
+        </button>
+    </section>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
-import ProductCard from './ProductCard.vue';
+<script>
+import ProductCard from './ProductCard.vue'
 
-// Пункты меню
-const items = [
-    { key: 'hit', label: 'ХИТ ПРОДАЖ' },
-    { key: 'recommended', label: 'СОВЕТУЕМ' },
-    { key: 'new', label: 'НОВИНКА' },
-    { key: 'sale', label: 'УЦЕНКА' },
-    { key: 'catalog', label: 'ВЕСЬ КАТАЛОГ',link: '/categories' },
-];
+export default {
+    components: { ProductCard },
+    data() {
+        return {
+            items: [
+                { key: 'hit', label: this.$page.props.catalog_menu.hit },
+                { key: 'new', label: this.$page.props.catalog_menu.new },
+                { key: 'recommended', label: this.$page.props.catalog_menu.recommended},
+                { key: 'sale', label: this.$page.props.catalog_menu.sale },
+                { key: 'all', label: this.$page.props.catalog_menu.all_catalog },
+            ],
+            products: [],
+            loading: false,
+            error: null,
+            limit: 8,
+            offset: 0,
+            hasMore: true,
+            currentFilter: 'hit',
+        }
+    },
+    methods: {
+        async loadProducts(filterKey, reset = false) {
+            if (this.loading) return
 
-const activeIndex = ref(0);
-const products = ref([]);
-const loading = ref(true);
-const error = ref(null);
+            this.loading = true
+            this.error = null
 
-// Загрузка продуктов по фильтру
-async function loadProducts(filterKey) {
-    loading.value = true;
-    error.value = null;
-    try {
-        const response = await fetch(`/api/products/filter?filter=${filterKey}`);
-        const json = await response.json();
-        products.value = json.data || [];
-    } catch (e) {
-        error.value = 'Ошибка загрузки данных';
-    } finally {
-        loading.value = false;
+            try {
+                if (reset) {
+                    this.products = []
+                    this.offset = 0
+                    this.hasMore = true
+                    this.currentFilter = filterKey
+                }
+
+                const response = await fetch(
+                    `/api/products/filter?filter=${filterKey}&limit=${this.limit}&offset=${this.offset}`
+                )
+                const json = await response.json()
+
+                this.products.push(...json.data)
+                this.hasMore = json.hasMore
+                this.offset += this.limit
+            } catch (e) {
+                this.error = 'Ошибка загрузки данных'
+            } finally {
+                this.loading = false
+            }
+        },
+    },
+    mounted() {
+        this.loadProducts(this.currentFilter, true)
     }
 }
-
-// Клик по пункту меню
-function setActive(index) {
-    activeIndex.value = index;
-    loadProducts(items[index].key);
-}
-
-// Начальная загрузка
-onMounted(() => {
-    loadProducts(items[activeIndex.value].key);
-});
-
-// Обработчик открытия продукта
-function openProduct(product) {
-    console.log('Открыть продукт', product);
-}
 </script>
+
 <style scoped>
-.right li a {
-    position: relative;
-    display: inline-block;
+.products-block {
+    margin-top: 30px;
+}
+
+.filters {
+    display: flex;
+    gap: 16px;
+}
+
+.filters button {
+    background: none;
+    border: none;
+    cursor: pointer;
     padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    color:#666666;
+}
+
+.filters button.active {
+    border-color: #ffd800;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1348px;
+}
+
+.loading,
+.error {
+    margin-top: 20px;
+    text-align: center;
+}
+.load-more {
+    display: block;
+    margin: 30px auto 0;
+    padding: 10px 20px;
+    border: 1px solid #ffd800;
+    font-weight: 400;
+    cursor: pointer;
+    border-radius: 5px;
+    background: transparent;
     color: #000;
-    text-decoration: none;
-    overflow: hidden;
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-/* линия */
-.right li a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 3px;
-    width: 100%;
-    background: #f5c600; /* жёлтая линия */
-
-    transform: translateX(-100%);  /* изначально скрыта слева */
-    transition: transform 0.3s ease;
+.load-more:hover {
+    background: #ffd800;
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* при ховере — линия растёт слева → направо */
-.right li a:hover::after {
-    transform: translateX(0);
+.load-more:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-/* при уходе — линия уходит справа → налево */
-.right li a:not(:hover)::after {
-    transform: translateX(100%);
-}
 
-/* активный пункт — линия всегда видна */
-.right li.active a::after {
-    transform: translateX(0);
+@media (max-width: 1000px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
-
+@media (max-width: 800px) {
+    .products-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .filters{
+        gap: 5px;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 15px;
+    }
+}
 </style>

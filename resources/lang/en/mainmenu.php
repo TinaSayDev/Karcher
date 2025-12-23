@@ -7,4 +7,6 @@ return [
     'purchase_service' => 'PURCHASE & SERVICE',
     'about' => 'ABOUT US',
     'blog' => 'BLOG',
+    'home_garden_description'=>'Home equipment',
+    'professional_description'=>'Business equipment',
 ];

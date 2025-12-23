@@ -12,6 +12,8 @@
                 loading="lazy"
                 draggable="false"
             />
+
+
         </div>
 
         <!-- Бейджи -->
@@ -36,12 +38,12 @@
         </div>
 
         <Stars/>
-        <div class="title">{{ product.name }}</div>
+        <div class="title"><a :href="`/products/${product.slug}`">{{ product.name }}</a></div>
 
-        <div class="price">{{ formatPrice(product.price_new) }} сум/шт</div>
+        <div class="price"><a :href="`/products/${product.slug}`">{{ formatPrice(product.price_new) }} сум/шт</a></div>
 
         <div class="details">
-            <div class="details-btn">{{$page.props.catalog_menu.more}}: </div>
+            <button class="details-btn"><a :href="`/products/${product.slug}`">{{$page.props.catalog_menu.more}} </a></button>
         </div>
     </div>
 </template>
@@ -143,7 +145,14 @@ export default {
 .image-wrapper { position: absolute; width: 258px; height: 288px; overflow: hidden; left: 25px; }
 .image-slide { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.35s ease; pointer-events: none; }
 .image-slide.active { opacity: 1; }
-
+.click-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10; /* поверх изображений */
+}
 .badge { position: absolute; left: 25px; padding: 2px 6px; border-radius: 2px; color: white; font-size: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: default; }
 
 /* Цвета бейджей */
@@ -183,6 +192,7 @@ export default {
     position: relative;
     overflow: hidden;
     transition: background 0.3s, transform 0.2s;
+    width: 100%;
 }
 .details-btn::after {
     content: "";

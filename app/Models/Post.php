@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $fillable = ['slug','image','is_published','published_at'];
-
+    protected $fillable = ['slug','image','is_published','is_promote', 'published_at'];
+    public $timestamps = false;
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
     public function translations() {
         return $this->hasMany(PostTranslation::class);
     }

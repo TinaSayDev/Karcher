@@ -51,4 +51,26 @@ class PostController extends Controller
         ]);
     }
 
+    public function promotedPosts()
+    {
+        $posts = Post::with('translations')
+            ->where('is_published', true)
+            ->where('is_promote', true)
+            ->get();
+
+        $data = $posts->map(function ($post) {
+            $translation = $post->translation();
+            return [
+                'id' => $post->id,
+                'slug' => $post->slug,
+                'image' => $post->image,
+                'title' => $translation?->title ?? '',
+                'date' => $post->published_at?->format('d.m.Y') ?? '',
+            ];
+        });
+
+        return response()->json($data);
+    }
+
+
 }

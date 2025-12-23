@@ -4,45 +4,37 @@
         <h2>Выгодные предложения</h2>
 
         <div class="offers-row">
-            <div
+
+            <a
                 v-for="(offer, index) in offers"
                 :key="index"
+                :href="`/blog/${offer.slug}`"
                 class="offer-col"
-                :style="{ backgroundImage: `url(${offer.image})` }"
+                :style="{ backgroundImage: `url(/storage/${offer.image})` }"
             >
                 <div class="offer-info">
                     <div class="date">{{ offer.date }}</div>
                     <div class="title">{{ offer.title }}</div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
     </div>
 </template>
 
 <script setup>
-const offers = [
-    {
-        image: '/images/offers/offer1.webp',
-        date: '12.11.2024',
-        title: 'Супер скидки',
-    },
-    {
-        image: '/images/offers/offer2.webp',
-        date: '12.11.2024',
-        title: 'Спецпредложение',
-    },
-    {
-        image: '/images/offers/offer3.webp',
-        date: '12.11.2024',
-        title: 'Скидки на технику',
-    },
-    {
-        image: '/images/offers/offer4.webp',
-        date: '12.11.2024',
-        title: 'Только сегодня',
-    },
-];
+import { ref, onMounted } from 'vue';
+
+const offers = ref([]);
+
+onMounted(async () => {
+    try {
+        const response = await fetch('/api/offers'); // API для промо-постов
+        offers.value = await response.json();
+    } catch (error) {
+        console.error('Ошибка при загрузке предложений:', error);
+    }
+});
 </script>
 
 <style scoped>
@@ -65,7 +57,6 @@ const offers = [
     gap: 30px;
     height: 436px;
 }
-
 .offer-col {
     cursor: pointer;
     position: relative;
@@ -75,7 +66,6 @@ const offers = [
     overflow: hidden;
     transition: transform 0.3s ease, filter 0.3s ease;
 }
-
 .offer-info {
     position: absolute;
     left: 0;
@@ -99,6 +89,7 @@ const offers = [
 
 .offer-col:hover {
     filter: brightness(0.7);
+    transform: translateY(-1px); /* поднимаем на 5px */
 }
 
 @media (max-width: 1024px) {

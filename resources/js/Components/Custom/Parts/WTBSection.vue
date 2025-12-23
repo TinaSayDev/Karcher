@@ -1,46 +1,43 @@
 <template>
     <div class="wtb-section">
         <a
-            v-for="(item, index) in items"
-            :key="index"
+            v-for="item in items"
+            :key="item.link"
             class="wtb-card"
             :href="item.link"
         >
             <div
                 class="wtb-img"
-                :style="{ backgroundImage: `url(${item.image})` }"
+                :data-title="item.title"
+                :style="{ backgroundImage: `url(/storage/${item.image})` }"
             ></div>
 
             <div class="wtb-text">
                 <h3>{{ item.title }}</h3>
-                <p>{{ item.text }}</p>
+                <p v-html="item.text"></p>
             </div>
         </a>
     </div>
 </template>
 
 <script setup>
-const items = [
-    {
-        image: '/images/wtb/Gde-kupit.webp',
-        title: 'Где купить',
-        text: 'Здесь Вы можете быстро и легко найти ближайшую торговую организацию или сервисный центр.',
-        link: '#',
-    },
-    {
-        image: '/images/wtb/Internet-magazin.webp',
-        title: 'Интернет магазин',
-        text: 'Здесь Вы можете быстро и легко найти ближайшую торговую организацию или сервисный центр.',
-        link: '#',
-    },
-    {
-        image: '/images/wtb/Prodlenie-garantii.webp',
-        title: 'Продление гарантии',
-        text: 'Здесь Вы можете быстро и легко найти ближайшую торговую организацию или сервисный центр.',
-        link: '#',
-    },
-];
+    import { ref, onMounted } from 'vue';
+
+    const items = ref([]);
+
+    onMounted(async () => {
+    try {
+    const response = await fetch('/homepage');
+    const data = await response.json();
+
+    // faq — это объект { faq-1: {}, faq-2: {}, faq-3: {} }
+    items.value = Object.values(data.faq ?? {});
+} catch (error) {
+    console.error('Ошибка загрузки FAQ секций:', error);
+}
+});
 </script>
+
 
 <style scoped>
 .wtb-section {
@@ -71,7 +68,7 @@ const items = [
 }
 
 .wtb-img::after {
-    content: 'Где купить';
+    content: attr(data-title);
     position: absolute;
     top: 0;
     left: 0;
@@ -87,6 +84,7 @@ const items = [
     opacity: 0;
     transition: all 0.4s ease;
 }
+
 
 .wtb-card:hover .wtb-img::after {
     background: #ffed00;

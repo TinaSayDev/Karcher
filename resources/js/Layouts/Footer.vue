@@ -4,11 +4,11 @@
             <!-- Колонка 1 -->
             <div class="footer-col">
                 <ul>
-                    <li><a href="#"><h5>Каталог</h5></a></li>
+                    <li><a href="/categories"><h5>Каталог</h5></a></li>
                     <li><a href="#"><h5>Акции</h5></a></li>
                     <li><a href="#"><h5>Услуги</h5></a></li>
-                    <li><a href="#"><h5>О бренде</h5></a></li>
-                    <li><a href="#"><h5>Блог</h5></a></li>
+                    <li><a href="/about"><h5>О бренде</h5></a></li>
+                    <li><a href="/blog"><h5>Блог</h5></a></li>
                 </ul>
             </div>
 
@@ -16,9 +16,9 @@
             <div class="footer-col">
                 <h5>Компания</h5>
                 <ul>
-                    <li><a href="#">О компании</a></li>
+                    <li><a href="/about">О компании</a></li>
                     <li><a href="#">Новости</a></li>
-                    <li><a href="#">Контакты</a></li>
+                    <li><a href="/contacts">Контакты</a></li>
                     <li><a href="#">Лицензии</a></li>
                     <li><a href="#">Отзывы</a></li>
                 </ul>

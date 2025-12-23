@@ -12,7 +12,11 @@ class SearchController extends Controller
 {
     public function index(Request $request)
     {
-        $query = $request->input('q');
+        $data = $request->validate([
+            'q' => 'nullable|string|max:255',
+        ]);
+
+        $query = $data['q'] ?? null;
 
         $locale = app()->getLocale();
 

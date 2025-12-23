@@ -46,6 +46,8 @@
 
             <!-- Related Products -->
             <RelatedProducts v-if="relatedProducts.length" :products="relatedProducts" />
+            <div class="home-link"><a :href="`/categories/${product.category?.slug}?grid=1`">{{$page.props.catalog_menu.back}}</a></div>
+
         </div>
     </DefaultLayout>
 </template>
@@ -79,9 +81,9 @@ export default {
         },
 
         relatedProducts() {
-            return this.product.category?.products?.filter(
-                p => p.id !== this.product.id
-            ) ?? []
+            return this.product.category?.products
+                ?.filter(p => p.id !== this.product.id)
+                .slice(0, 4) ?? []
         },
 
         breadcrumbs() {
@@ -157,5 +159,8 @@ export default {
 .product-info a {
     color: #007bff;
     text-decoration: none;
+}
+.home-link{
+    margin-right: 6px;
 }
 </style>

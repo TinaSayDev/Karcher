@@ -98,4 +98,27 @@ class CategoryController extends Controller
     }
 
 
+    public function apiChildren(Request $request, $slug)
+    {
+        $locale = app()->getLocale();
+
+        // Находим категорию по slug с переводами
+        $category = Category::whereHas('translations', fn($q) =>
+        $q->where('slug', $slug)
+        )
+            ->with(['children.translations'])
+            ->firstOrFail();
+
+        // Формируем JSON с дочерними категориями
+        $children = $category->children->map(fn($child) => [
+            'id' => $child->id,
+            'slug' => $child->translation()?->slug,
+            'name' => $child->translation()?->name ?? '',
+        ]);
+
+        return response()->json($children);
+    }
+
+
+
 }

@@ -67,6 +67,7 @@ export default {
 <style scoped>
 .related-products {
     margin-top: 40px;
+    margin-bottom: 100px;
 }
 
 .carousel {

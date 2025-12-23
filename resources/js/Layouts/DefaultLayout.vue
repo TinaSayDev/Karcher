@@ -34,6 +34,9 @@ export default {
         MainMenu,
         Footer,
         Breadcrumbs
+    },
+    mounted() {
+        document.title = 'Karcher'
     }
 };
 

@@ -2,23 +2,24 @@
     <section class="section-2col">
         <div
             class="col"
+            :style="{ backgroundImage: `url(${col2})` }"
+        >
+            <a class="info-block" href="/categories/home_garden">
+                <h3>{{ $page.props.mainmenu.home_garden }}</h3>
+                <p>{{ $page.props.mainmenu.home_garden_description}}</p>
+            </a>
+        </div>
+        <div
+            class="col"
             :style="{ backgroundImage: `url(${col1})` }"
         >
-            <a class="info-block" href="#">
-                <h3>Бытовая техника</h3>
-                <p>Техника для уборки дома и сада</p>
+            <a class="info-block" href="/categories/professional">
+                <h3>{{ $page.props.mainmenu.professional }}</h3>
+                <p>{{ $page.props.mainmenu.professional_description}}</p>
             </a>
         </div>
 
-        <div
-            class="col"
-            :style="{ backgroundImage: `url(${col2})` }"
-        >
-            <a class="info-block" href="#">
-                <h3>Профессиональная техника</h3>
-                <p>Уборочная техника для бизнеса</p>
-            </a>
-        </div>
+
     </section>
 </template>
 

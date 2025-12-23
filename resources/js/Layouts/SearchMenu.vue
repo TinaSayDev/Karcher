@@ -154,7 +154,11 @@ const handleBlur = (e) => {
         margin-right: 10px;
     }
     .search-box{
-        position: relative;
+        top: 55px;
+        right: 0;
+        z-index: 1002;
+        background: #fff;
+        margin: 0;
     }
 }
 </style>

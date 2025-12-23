@@ -10,5 +10,6 @@ return [
     'price'=>'Narx',
     'related'=>'Related Products',
     'more'=>'Batafsil',
-    'back'=>'Orqaga'
+    'back'=>'Orqaga',
+    'all_catalog'=>'Katalog'
 ];

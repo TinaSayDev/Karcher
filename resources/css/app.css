@@ -117,6 +117,18 @@ a:hover .line {
 .rich-text-content-wrapper { /* Replace with your actual container class */
     overflow-x: auto;
 }
+
+.home-link{
+    text-align: right;
+    margin-right: 126px;
+    padding: 20px 0;
+
+}
+
+.home-link:hover{
+    text-decoration: underline;
+    text-decoration-color: #FFF000;
+}
 @media (max-width: 1200px) {
     .products-grid {
         grid-template-columns: repeat(3, 1fr);

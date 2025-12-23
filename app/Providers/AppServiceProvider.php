@@ -25,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
+        //Inertia::share('appName', config('app.name'));
+
         Inertia::share([
             'mainmenu' => function () {
                 return [
@@ -35,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
                     'purchase_service' => __('mainmenu.purchase_service'),
                     'about' => __('mainmenu.about'),
                     'blog' => __('mainmenu.blog'),
+                    'home_garden_description' => __('mainmenu.home_garden_description'),
+                    'professional_description' => __('mainmenu.professional_description'),
                 ];
             },
             'catalog_menu' => function () {
@@ -50,9 +54,11 @@ class AppServiceProvider extends ServiceProvider
                     'related'=>__('product.related'),
                     'more'=>__('product.more'),
                     'back'=>__('product.back'),
+                    'all_catalog'=>__('product.all_catalog'),
                 ];
 
-            }
+            },
+            'appName', config('app.name')
         ]);
     }
 }

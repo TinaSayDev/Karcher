@@ -10,5 +10,6 @@ return [
     'price'=>'Price',
     'related'=>'Related Products',
     'more'=>'More',
-    'back'=>'Go back'
+    'back'=>'Go back',
+    'all_catalog'=>'All catalog'
 ];

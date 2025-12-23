@@ -46,7 +46,7 @@
                         </defs>
                     </svg>
 
-                    <span class="phone">+998 97 455 71 54</span>
+                    <a href="tel:+998974557154" class="phone">+998 97 455 71 54</a>
                 </div>
             </div>
 

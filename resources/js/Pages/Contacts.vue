@@ -42,6 +42,8 @@
             <h2>Get in touch</h2>
             <form class="contact-form flex" @submit.prevent="submit">
                 <div class="form-left">
+                    <input type="text" v-model="form.website" style="display:none" autocomplete="off">
+
                     <input type="text" v-model="form.name" placeholder="Name" required />
                     <input type="text" v-model="form.phone" placeholder="Phone" />
                     <input type="email" v-model="form.email" placeholder="Email" required />
@@ -53,7 +55,10 @@
                     </button>
                 </div>
             </form>
-            <div v-if="success" class="success-message">Message sent successfully!</div>
+
+            <div v-if="success" class="success-message">
+                Message sent successfully!
+            </div>
         </div>
 
     </DefaultLayout>
@@ -89,20 +94,24 @@ const form = ref({
     name: '',
     phone: '',
     email: '',
-    message: ''
+    message: '',
+    website: '' // honeypot
+
 })
 
 const loading = ref(false)
 const success = ref(false)
 
-const submit = async () => {
+async function submit() {
+    if (form.value.website) return // honeypot check
+
     loading.value = true
     success.value = false
 
     try {
-        await axios.post('/contacts/send', form.value)
+        await axios.post('/contact', form.value)
         success.value = true
-        form.value = { name: '', phone: '', email: '', message: '' }
+        form.value = { name: '', phone: '', email: '', message: '', website: '' }
     } catch (e) {
         console.error(e)
         alert('Error sending message')

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\HomepageController;
 use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\SearchController;
@@ -30,12 +32,15 @@ Route::get('/blog/{slug}', [PostController::class, 'show']);
 // корневые категории
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{slug}', [CategoryController::class, 'show']);
+Route::get('/categories/{slug}/children', [CategoryController::class, 'apiChildren']);
 
 
 Route::get('/products/{slug}', [ProductController::class, 'show']);
 
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
+Route::get('/homepage', [HomepageController::class, 'index']);
+Route::post('/contact', [ContactController::class, 'send']);
 
 
 /**

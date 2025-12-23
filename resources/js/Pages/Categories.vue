@@ -14,9 +14,9 @@
                         :src="getImageUrl(cat.image, 'categories')"
                         class="cat-img"
                     />
-
+                    <p>{{ cat.name }}</p>
                 </a>
-                <p>{{ cat.name }}</p>
+
             </li>
         </ul>
 
@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <div class="home-link products-grid container"><a href="/">{{$page.props.catalog_menu.back}}</a></div>
+        <div class="home-link"><a href="/categories">{{$page.props.catalog_menu.back}}</a></div>
 
     </DefaultLayout>
 </template>
@@ -101,7 +101,7 @@ export default {
 .home-link{
     text-align: right;
     color: #333333;
-    margin: 50px 5px;
+    margin-right: 100px;
 }
 .leaf-header{
     width: 375px;

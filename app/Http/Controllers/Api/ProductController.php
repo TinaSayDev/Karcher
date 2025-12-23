@@ -13,43 +13,44 @@ class ProductController extends Controller
 
     public function filter(Request $request)
     {
-        $flag = $request->get('flag');   // например: hit, new, recommended, sale
-        $limit = $request->get('limit'); // например 12 (необязательно)
+        $flag = $request->get('filter');
+        $limit = (int) $request->get('limit', 8);
+        $offset = (int) $request->get('offset', 0);
 
         $query = Product::query();
 
-        // Фильтр по флагу
         switch ($flag) {
             case 'hit':
-                $query->orderByDesc('is_hit');
+                $query->where('is_hit', true)->orderByDesc('id');
                 break;
-
             case 'new':
-                $query->orderByDesc('is_new');
+                $query->where('is_new', true)->orderByDesc('id');
                 break;
-
             case 'recommended':
-                $query->orderByDesc('is_recommended');
+                $query->where('is_recommended', true)->orderByDesc('id');
                 break;
-
             case 'sale':
-                $query->orderByDesc('is_sale');
+                $query->where('is_sale', true)->orderByDesc('id');
                 break;
-
             default:
-                // Без фильтра — просто все товары со стандартной сортировкой
-                $query->orderBy('id');
+                $query->orderByDesc('id');
         }
 
-        // Лимит, если нужен
-        if ($limit) {
-            $query->limit($limit);
-        }
+        // Берём limit + 1 для проверки, есть ли ещё
+        $products = $query->skip($offset)->take($limit + 1)->get();
 
-        $products = $query->get();
+        $hasMore = $products->count() > $limit;
 
-        return ProductResource::collection($products);
+        // Возьмём ровно limit для фронта
+        $products = $products->take($limit);
+
+        return response()->json([
+            'data' => ProductResource::collection($products),
+            'hasMore' => $hasMore,
+        ]);
     }
+
+
 
 
     public function show(Request $request, $slug)

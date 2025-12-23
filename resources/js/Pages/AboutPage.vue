@@ -4,14 +4,19 @@
             <h1>{{ page?.title }}</h1>
             <div v-html="page?.content"></div>
         </div>
+        <SectionTwoCol />
+
+        <div class="home-link"><a href="/">{{$page.props.catalog_menu.back}}</a></div>
+
     </DefaultLayout>
 </template>
 
 <script>
 import DefaultLayout from '@/Layouts/DefaultLayout.vue'
+import SectionTwoCol from '@/Components/Custom/Parts/SectionTwoCol.vue'
 
 export default {
-    components: { DefaultLayout },
+    components: { DefaultLayout,SectionTwoCol },
     props: {
         page: Object
     }
