@@ -3,7 +3,7 @@
         <div class="container flex justify-between items-center">
             <div class="left">
                 <div class="socials">
-                    <a href="#">
+                    <a  :href="topMenu.link1">
                         <svg class="fb" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="24" height="24" fill="url(#pattern0_28_6)"/>
@@ -18,7 +18,7 @@
                         </svg>
                     </a>
 
-                    <a href="#">
+                    <a  :href="topMenu.link2">
                         <svg class="inst" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="24" height="24" fill="url(#pattern0_28_7)"/>
@@ -46,7 +46,8 @@
                         </defs>
                     </svg>
 
-                    <a href="tel:+998974557154" class="phone">+998 97 455 71 54</a>
+                    <a :href="`tel:${topMenu.phone.replace(/\s+/g, '')}`"
+                           class="phone">{{topMenu.phone}}</a>
                 </div>
             </div>
 
@@ -59,10 +60,17 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import axios from "axios";
+
 import SearchMenu from './SearchMenu.vue';
 import LanguageSwitcher from './LanguageSwitcher.vue'
+const topMenu = ref(null);
 
+onMounted(async () => {
+    const { data } = await axios.get('/api/top-menu');
+    topMenu.value = data;
+});
 
 </script>
 

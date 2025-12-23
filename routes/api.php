@@ -28,3 +28,7 @@ Route::get('/categories/{id}/products', [CategoryController::class, 'products'])
 Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/{slug}', [PostController::class, 'show']);
 Route::get('/offers', [PostController::class, 'promotedPosts']);
+
+Route::get('/top-menu', function () {
+    return \App\Models\TopMenu::first();
+});
