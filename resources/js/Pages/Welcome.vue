@@ -27,14 +27,6 @@ defineOptions({
     layout: DefaultLayout
 })
 
-const banners = [
-    '/images/banners/banner1.webp',
-    '/images/banners/banner2.webp',
-    '/images/banners/banner3.webp',
-    '/images/banners/banner4.webp',
-    '/images/banners/banner5.webp',
-    '/images/banners/banner6.webp',
-];
 document.querySelectorAll('.ripple').forEach(btn => {
     btn.addEventListener('click', function (e) {
         const rect = this.getBoundingClientRect();
@@ -45,7 +37,7 @@ document.querySelectorAll('.ripple').forEach(btn => {
 </script>
 
 <template>
-    <Carousel :slides="banners"/>
+    <Carousel/>
     <SectionTwoCol/>
     <section class="gray">
         <catalog-component/>

@@ -1,14 +1,15 @@
 <template>
     <div class="carousel-wrapper">
         <div class="carousel-track">
-            <a href="/categories">
-            <div
+            <a
                 v-for="(slide, i) in slides"
                 :key="i"
+                :href="slide.link"
                 class="slide"
                 :class="{ active: index === i }"
-                :style="{ backgroundImage: `url(${slide})` }"
-            ></div></a>
+                :style="{ backgroundImage: `url(${slide.image})` }"
+            ></a>
+
         </div>
 
         <div class="dots">
@@ -25,14 +26,11 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
+import axios from 'axios';
 
-const props = defineProps({
-    slides: {
-        type: Array,
-        required: true
-    }
-});
+const locale = document.documentElement.lang || 'ru';
 
+const slides = ref([]); // <--- реативный массив для баннеров из API
 const index = ref(0);
 let interval = null;
 
@@ -40,15 +38,33 @@ function goTo(i) {
     index.value = i;
 }
 
+// Подгружаем баннеры с API
+async function loadBanners() {
+    try {
+        const { data } = await axios.get(`/api/banners?locale=${locale}`);
+        slides.value = data.map(b => ({
+            image: b.image,
+            link: b.link || '#'
+        }));
+    } catch (error) {
+        console.error('Ошибка загрузки баннеров', error);
+    }
+}
+
 onMounted(() => {
-    interval = setInterval(() => {
-        index.value = (index.value + 1) % props.slides.length;
-    }, 4000);
+    loadBanners().then(() => {
+        if (!slides.value.length) return;
+
+        interval = setInterval(() => {
+            index.value = (index.value + 1) % slides.value.length;
+        }, 4000);
+    });
 });
 
 onBeforeUnmount(() => {
     clearInterval(interval);
 });
+
 </script>
 
 <style scoped>

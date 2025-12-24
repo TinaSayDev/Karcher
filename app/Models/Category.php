@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Category extends Model
 {
-    protected $fillable = ['parent_id', 'image'];
+    protected $fillable = ['parent_id', 'image','is_link', 'menu_id','parent_link_id'];
 
     // все переводы
     public function translations(): HasMany
@@ -64,5 +64,14 @@ class Category extends Model
     public function products(): HasMany
     {
         return $this->hasMany(\App\Models\Product::class, 'category_id');
+    }
+
+    public function menu(): BelongsTo {
+        return $this->belongsTo(Menu::class);
+    }
+
+    public function parentLink()
+    {
+        return $this->belongsTo(Category::class, 'parent_link_id');
     }
 }

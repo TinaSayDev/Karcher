@@ -3,9 +3,11 @@
 
 namespace App\Providers;
 
+use App\Models\Menu;
 use Filament\Facades\Filament;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Log;
 
 class FilamentServiceProvider extends ServiceProvider
 {
@@ -14,22 +16,6 @@ class FilamentServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Log::info('FilamentServiceProvider booted');
 
-        // Фильтруем доступ к админке
-        Filament::serving(function () {
-
-            // Разрешаем доступ только определённым пользователям
-            Filament::auth(function ($user) {
-                // Вариант 1: разрешаем конкретному email
-               // return $user->email === 'admin@example.com';
-
-                // Вариант 2: разрешаем всем пользователям с ролью admin
-                // return $user->role === 'admin';
-
-                // Вариант 3: разрешаем всем зарегистрированным пользователям (только для теста)
-                 return true;
-            });
-        });
     }
 }

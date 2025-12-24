@@ -20,6 +20,7 @@ class EditCategory extends EditRecord
                 'name' => $t->name ?? '',
                 'slug' => $t->slug ?? '',
                 'description' => $t->description ?? '',
+                'menu_label' => $t->menu_label ?? '',
             ];
         }
 
@@ -42,6 +43,7 @@ class EditCategory extends EditRecord
                     'name'        => $fields['name'] ?? '',
                     'slug'        => $fields['slug'] ?? '',
                     'description' => $fields['description'] ?? '',
+                    'menu_label' => $fields['menu_label'] ?? '',
                 ]
             );
         }

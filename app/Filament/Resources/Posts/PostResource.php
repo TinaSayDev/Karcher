@@ -23,7 +23,17 @@ use App\Filament\Resources\Posts\Pages\EditPost;
 class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-folder';
+    //protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-folder';
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Страницы'; // Название группы
+    }
+
+    public static function getNavigationIcon(): ?string
+    {
+        return 'heroicon-o-document-text';
+    }
 
     public static function form(Schema $schema): Schema
     {

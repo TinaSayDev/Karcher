@@ -5,7 +5,6 @@ namespace App\Filament\Resources\TopMenus;
 use App\Filament\Resources\TopMenus\Pages\CreateTopMenu;
 use App\Filament\Resources\TopMenus\Pages\EditTopMenu;
 use App\Filament\Resources\TopMenus\Pages\ListTopMenus;
-use App\Filament\Resources\TopMenus\Schemas\TopMenuForm;
 use App\Filament\Resources\TopMenus\Tables\TopMenusTable;
 use App\Models\TopMenu;
 use BackedEnum;
@@ -25,7 +24,17 @@ class TopMenuResource extends Resource
 {
     protected static ?string $model = TopMenu::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-folder';
+   // protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-bars-3';
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Ссылки меню'; // Название группы
+    }
+
+    public static function getNavigationIcon(): ?string
+    {
+        return 'heroicon-o-bars-3';
+    }
 
     public static function form(Schema $schema): Schema
     {

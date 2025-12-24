@@ -2,8 +2,8 @@
     <div class="top-menu">
         <div class="container flex justify-between items-center">
             <div class="left">
-                <div class="socials">
-                    <a  :href="topMenu.link1">
+                <div v-if="topMenu" class="socials">
+                    <a :href="topMenu.link1">
                         <svg class="fb" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <rect width="24" height="24" fill="url(#pattern0_28_6)"/>
@@ -33,7 +33,7 @@
                         </svg>
                     </a>
                 </div>
-                <div class="phone">
+                <div v-if="topMenu" class="phone">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink">
                         <rect width="24" height="24" fill="url(#pattern0_28_8)"/>
@@ -68,9 +68,14 @@ import LanguageSwitcher from './LanguageSwitcher.vue'
 const topMenu = ref(null);
 
 onMounted(async () => {
-    const { data } = await axios.get('/api/top-menu');
-    topMenu.value = data;
-});
+    try {
+        const res = await axios.get('/api/top-menu')
+        topMenu.value = res.data ?? {} // если null — заменяем на пустой объект
+    } catch (e) {
+        console.error('Ошибка загрузки меню', e)
+        topMenu.value = {} // чтобы компонент не падал
+    }
+})
 
 </script>
 

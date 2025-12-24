@@ -20,7 +20,16 @@ use Filament\Forms\Components\Toggle;
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-folder';
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Каталог'; // Название группы
+    }
+
+    public static function getNavigationIcon(): ?string
+    {
+        return 'heroicon-o-building-storefront';
+    }
 
     public static function form(Schema $schema): Schema
     {

@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\PostController;
+use App\Models\TopMenu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,5 +32,7 @@ Route::get('/posts/{slug}', [PostController::class, 'show']);
 Route::get('/offers', [PostController::class, 'promotedPosts']);
 
 Route::get('/top-menu', function () {
-    return \App\Models\TopMenu::first();
+    return TopMenu::first();
 });
+
+Route::get('/banners', [BannerController::class, 'index']);

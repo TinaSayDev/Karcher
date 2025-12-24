@@ -21,6 +21,20 @@ class AboutPageTranslationResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'Страница';
 
+
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Страницы'; // Название группы
+    }
+
+    public static function getNavigationIcon(): ?string
+    {
+        return 'heroicon-o-document-text';
+    }
+
+
+
     public static function form(Schema $schema): Schema
     {
         return AboutPageTranslationForm::configure($schema);
